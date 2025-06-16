@@ -1,3 +1,3 @@
-[submodule "sbfParser"]
-	path = sbfParser
-	url = https://github.com/Louis-max-H/sbfParserLmx
+[submodule "SbfParser"]
+	path = SbfParser
+	url = https://github.com/septentrio-gnss/SbfParser
