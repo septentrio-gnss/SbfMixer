@@ -4,6 +4,7 @@
   "description": "Mix sbf file, serial input and receiver output",
   "dependencies": {
     "node-red": "^4.0.9",
+    "node-red-node-serialport": "^2.0.3",
     "util.log": "^0.0.45"
   },
   "keywords": [

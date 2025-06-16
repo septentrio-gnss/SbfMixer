@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="sbf_mixer.png" alt="SBF Mixer Logo">
+  <img src="sbf_mixer_white.png" alt="SBF Mixer Logo">
 </div>
 
 # SbfMixer
@@ -28,7 +28,7 @@ pip install -e .
 cd ..
 
 # Install packages
-cd ~/.nodre-ed
+cd ~/.node-red
 npm install ~/SbfMixer
 npm install node-red-node-serialport
 

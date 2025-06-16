@@ -2,6 +2,8 @@ temp*
 venv/
 *.bin
 inifini_run.sh
+package-lock.json
+
 
 # Created by https://www.toptal.com/developers/gitignore/api/python,node
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,node
