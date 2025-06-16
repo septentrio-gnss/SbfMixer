@@ -1,0 +1,115 @@
+<script type="text/javascript">
+    (function() {
+        RED.nodes.registerType('on-change', {
+            category: 'Septentrio',
+            color: '#ffdc15',
+            defaults: {
+                name: { value: "" },
+                rules: { value: [] },
+                outputs: { value: 0 }
+            },
+            inputs: 1,
+            outputs: 0, // Dynamically updated in oneditsave
+            icon: "font-awesome/fa-television",
+            label: function() {
+                return this.name || "on-change";
+            },
+            labelStyle: function () {
+                return this.name ? "node_label_italic" : "";
+            },
+            oneditprepare: function() {
+                var node = this;
+                var container = $('#node-input-rule-container');
+    
+                var ruleList = container.css('min-height', '250px').css('min-width', '350px').editableList({
+                    header: $('<div>').css({display: 'flex', alignItems: 'center'}).append(
+                        $('<div>', {text: "Block ID", style: 'width: 100px; margin-right: 10px; font-weight: bold;'}),
+                        $('<div>', {text: "Field Name", style: 'width: 150px; margin-right: 10px; font-weight: bold;'})
+                    ),
+                    addItem: function(rowContainer, i, ruleData) {
+                        if (!ruleData.hasOwnProperty('blockId')) {
+                            ruleData = { blockId: "", fieldName: "" };
+                        }
+    
+                        rowContainer.css({ display: 'flex', alignItems: 'center', marginBottom: '5px' });
+    
+                        var blockIdInput = $('<input/>', { class: "node-input-rule-blockId", type: "text", style: "width: 100px; margin-right: 10px;"})
+                            .appendTo(rowContainer)
+                            .val(ruleData.blockId);
+    
+                        var fieldNameInput = $('<input/>', { class: "node-input-rule-fieldName", type: "text", style: "width: 150px; margin-right: 10px;" }) // Adjusted style if needed
+                            .appendTo(rowContainer)
+                            .val(ruleData.fieldName);
+                    },
+                    removable: true,
+                    sortable: true,
+                });
+    
+                // Load initial rules
+                if (node.rules) {
+                    node.rules.forEach(function(rule) {
+                        ruleList.editableList('addItem', rule);
+                    });
+                }
+            },
+            oneditsave: function() {
+                var node = this;
+                var ruleListItems = $("#node-input-rule-container").editableList('items');
+                node.rules = [];
+                ruleListItems.each(function(i) {
+                    var ruleElement = $(this);
+                    var rule = {
+                        blockId: ruleElement.find(".node-input-rule-blockId").val(),
+                        fieldName: ruleElement.find(".node-input-rule-fieldName").val(),
+                        outputIndex: i // Assign output index based on final order in the list
+                    };
+    
+                    // Only save rules that have at least blockId and fieldName defined
+                    if (rule.blockId && rule.fieldName) {
+                        node.rules.push(rule);
+                    }
+                });
+
+                // Update the number of outputs based on the saved rules
+                node.outputs = node.rules.length;
+                },
+            oneditresize: function(size) {
+                var rows = $("#dialog-form>div:not(.node-input-rule-container-row)");
+                var height = size.height;
+                for (var i = 0; i < rows.length; i++) {
+                    height -= $(rows[i]).outerHeight(true);
+                }
+                var editorRow = $("#dialog-form>div.node-input-rule-container-row");
+                height -= (parseInt(editorRow.css("marginTop")) + parseInt(editorRow.css("marginBottom")));
+                height -= 60;
+    
+                $("#node-input-rule-container").editableList('height', height);
+            }
+        });
+    })();
+    </script>
+
+
+<script type="text/html" data-template-name="on-change">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row" style="margin-bottom: 0px;">
+        <label><i class="fa fa-list"></i> Monitoring Rules</label>
+    </div>
+    <div class="form-row node-input-rule-container-row">
+        <ol id="node-input-rule-container" style="list-style-type: none; margin: 0;"></ol>
+    </div>
+
+    <div class="form-tips">
+        <p>Monitors specific <code>blockId/fieldName</code> pairs in incoming <code>msg.type='SBF'</code> messages.</p>
+        <p>Triggers an output when the value of a monitored field changes, sending a clone of the message that triggered the change.</p>
+        <p>Each rule corresponds to a separate output port.</p>
+        <ul>
+            <li><b>Block ID:</b> The SBF block name (e.g., "4007" for PVTGeodetic).</li>
+            <li><b>Field Name:</b> The specific field within the block's <code>msg.block</code> object (e.g., "Latitude").</li>
+        </ul>
+    </div>
+</script>

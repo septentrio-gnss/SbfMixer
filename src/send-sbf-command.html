@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    RED.nodes.registerType('send-sbf-command',{
+        category: 'Septentrio',
+        color: '#d5fab4',
+        defaults: {
+            name: {value:""},
+            sbf_command: {value:"", required:true}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "arrow-in.png",
+        label: function() {
+            return this.name || `Send: ${this.sbf_command || 'command'}`;
+        },
+        paletteLabel: "send command"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="send-sbf-command">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sbf_command"><i class="fa fa-terminal"></i> SBF Command</label>
+        <input type="text" id="node-input-sbf_command" placeholder="e.g., setCOMSettings">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="send-sbf-command">
+    <p>Sends a Septentrio command.</p>
+    <p>When this node receives a message with <code>msg.type</code> set to <code>"septentrio_command"</code>, it sends a reply message.</p>
+    <p>The reply message has:</p>
+    <ul>
+        <li><code>msg.type</code> set to <code>"septentrio_replie"</code>.</li>
+        <li><code>msg.message</code> set to <code>$R:&lt;command_name&gt;</code>, where <code>&lt;command_name&gt;</code> is the <b>SBF Command</b> configured in this node.</li>
+        <li><code>msg.payload</code> set to a Buffer containing the ASCII encoded <code>msg.message</code> string.</li>
+    </ul>
+    <p>The <b>SBF Command</b> field must be configured with the name of the command to acknowledge.</p>
+</script>

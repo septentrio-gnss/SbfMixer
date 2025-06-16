@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    RED.nodes.registerType('receiver-state', {
+        category: 'Septentrio',
+        color: '#C7E9C0',
+        defaults: {
+            name: { value: "" }
+        },
+        inputs: 1,
+        outputs: 0,
+        icon: "font-awesome/fa-signal",
+        label: function() {
+            return this.name || "receiver-state";
+        },
+    });
+</script>
+
+<script type="text/html" data-template-name="receiver-state">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="receiver-state">
+    <p>Displays the receiver's RF status based on the <code>RFStatus</code> SBF block.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>msg <span class="property-type">object</span></dt>
+        <dd>
+            A message object typically from an SBF parser node. It expects the parsed <code>RFStatus</code> block. The node specifically looks for:
+            <ul>
+                <li><code>msg.blockName</code> (string): Should be "RFStatus".</li>
+                <li><code>msg.block.data.Flags</code> (number): The integer value containing the status flags.</li>
+            </ul>
+             Alternatively, if the input is an array in <code>msg.block</code>, the node will search for the object where <code>blockName</code> is "RFStatus".
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+     <p>This node does not produce any output messages. It only updates its status indicator in the Node-RED editor.</p>
+
+    <h3>Status Indicator</h3>
+    <p>The node's status indicator reflects the receiver's RF status:</p>
+    <ul>
+        <li><b>Red dot:</b> Critical RF issue (Bit 1 of <code>Flags</code> is set).</li>
+        <li><b>Orange dot:</b> RF warning (Bit 0 of <code>Flags</code> is set, Bit 1 is not).</li>
+        <li><b>Green dot:</b> RF OK (Bits 0 and 1 of <code>Flags</code> are not set).</li>
+        <li><b>Blue dot:</b> Idle (No <code>RFStatus</code> message received for 2 seconds).</li>
+    </ul>
+
+    <h3>Details</h3>
+    <p>This node monitors incoming SBF messages for the <code>RFStatus</code> block and interprets its <code>Flags</code> field to provide a visual indication of the receiver's radio frequency health.</p>
+</script>

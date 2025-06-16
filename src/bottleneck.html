@@ -1,0 +1,70 @@
+<!-- Node definition for the Bottleneck node -->
+<script type="text/javascript">
+    RED.nodes.registerType('bottleneck', {
+        category: 'Septentrio',
+        color: '#ffdc15',
+        defaults: {
+            name: { value: "" },
+            allowMultiple: { value: false }
+        },
+        inputs: 1,
+        outputs: 1,
+        inputLabels: function(i) {
+            return "Input " + (i + 1);
+        },
+        outputLabels: "Output",
+        icon: "font-awesome/fa-filter",
+        label: function() {
+            return this.name || "Bottleneck";
+        },
+        labelStyle: function() {
+            return this.name ? "node_label_italic" : "";
+        },
+        oneditprepare: function() {
+            const node = this;
+            const $allowMultiple = $("#node-input-allowMultiple");
+
+            // --- Allow Multiple Checkbox ---
+            $allowMultiple.prop('checked', node.allowMultiple === true);
+        },
+        oneditsave: function() {
+            this.allowMultiple = $("#node-input-allowMultiple").prop('checked');
+        }
+    });
+</script>
+
+<!-- HTML for the editor panel -->
+<script type="text/x-red" data-template-name="bottleneck">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <input type="checkbox" id="node-input-allowMultiple" style="display: inline-block; width: auto; vertical-align: top; margin-right: 10px;">
+        <label for="node-input-allowMultiple" style="width: auto;">Allow multiple inputs if same priority</label>
+    </div>
+</script>
+
+<!-- Help text for the node -->
+<script type="text/x-red" data-help-name="bottleneck">
+    <p>Forwards messages from the input(s) with the highest current priority.</p>
+    <h3>Details</h3>
+    <p>The node dynamically determines the number of inputs based on the highest port number (<code>msg._port</code>) received. You do not need to configure the number of inputs manually.</p>
+    <p>Each input has a default priority of 0.</p>
+    <p>The node monitors incoming messages on all dynamically discovered inputs. It outputs messages only from the input(s) that currently possess the highest priority value among all active inputs.</p>
+    <p>If multiple inputs share the same highest priority, messages from all of them will be forwarded if the "Allow multiple" option is checked. Otherwise, only the message from the input with the lowest index (e.g., Input 1 before Input 2) is forwarded.</p>
+    <h3>Priority Control</h3>
+    <p>The priority of an input can be dynamically updated by sending a message to that specific input (identified by <code>msg._port</code>) with the following properties:</p>
+    <ul>
+        <li><code>msg.command</code>: set to the string <code>"set"</code></li>
+        <li><code>msg.priority</code>: set to the desired new priority (integer)</li>
+    </ul>
+    <p>The <code>allowMultiple</code> behavior (whether to forward from all inputs sharing the highest priority) can also be updated dynamically. Send a message to any input with:</p>
+    <ul>
+        <li><code>msg.command</code>: set to the string <code>"setAllowMultiple"</code></li>
+        <li><code>msg.allowMultiple</code>: set to the desired boolean value (<code>true</code> or <code>false</code>)</li>
+    </ul>
+    <p>Command messages are used only to update the priority or settings and are not forwarded to the output.</p>
+    <h3>Status</h3>
+    <p>The node status indicates the id of the input(s) currently being forwarded and the total number of inputs detected so far when no inputs are active.</p>
+</script>

@@ -1,0 +1,817 @@
+[
+    {
+        "id": "eaaf8be7e967820e",
+        "type": "tab",
+        "label": "Flow 8",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "06907f452cbe61e2",
+        "type": "serial out",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "0d00af4871687cdd",
+        "x": 1500,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "8f9f2ca8223aab2a",
+        "type": "sbf-parser",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 500,
+        "y": 320,
+        "wires": [
+            [
+                "29266ab8ccc00db4",
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "5a052a3df07aed29",
+        "type": "sbf-encoder",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 1250,
+        "y": 320,
+        "wires": [
+            [
+                "06907f452cbe61e2"
+            ]
+        ]
+    },
+    {
+        "id": "29266ab8ccc00db4",
+        "type": "receiver-state",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 720,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "664af0e04df62b65",
+        "type": "receiver-state",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 1000,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "db99b21b17606316",
+        "type": "debug",
+        "z": "eaaf8be7e967820e",
+        "name": "Computer",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "2eab3a605a459de9",
+        "type": "serial in",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "0d00af4871687cdd",
+        "x": 220,
+        "y": 700,
+        "wires": [
+            [
+                "ecd643125c0382d9",
+                "5fcdc45d8ed1288d"
+            ]
+        ]
+    },
+    {
+        "id": "74e776824320efbf",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 240,
+        "y": 760,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ecd643125c0382d9",
+        "type": "serial out",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "34ae64e833f101aa",
+        "x": 460,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "3bf01a73f5fc4bbe",
+        "type": "debug",
+        "z": "eaaf8be7e967820e",
+        "name": "Mosaic",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "5fcdc45d8ed1288d",
+        "type": "join",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "mode": "custom",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "0.15",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 430,
+        "y": 760,
+        "wires": [
+            [
+                "db99b21b17606316"
+            ]
+        ]
+    },
+    {
+        "id": "2915d40ab75eef02",
+        "type": "join",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "mode": "custom",
+        "build": "string",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "0.1",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 490,
+        "y": 160,
+        "wires": [
+            [
+                "3bf01a73f5fc4bbe"
+            ]
+        ]
+    },
+    {
+        "id": "b54dc0ceb6e14f12",
+        "type": "serial in",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "34ae64e833f101aa",
+        "x": 270,
+        "y": 320,
+        "wires": [
+            [
+                "2915d40ab75eef02",
+                "8f9f2ca8223aab2a"
+            ]
+        ]
+    },
+    {
+        "id": "3510c2531450f722",
+        "type": "spoofer",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "skipAfterMs": 5000,
+        "skipDurationMs": "10",
+        "memoryParserName": "norway_file",
+        "startAtTOW": "",
+        "endAtTOW": "",
+        "x": 740,
+        "y": 320,
+        "wires": [
+            [
+                "664af0e04df62b65",
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "560cbe97ed083c1e",
+        "type": "sbf-parser",
+        "z": "eaaf8be7e967820e",
+        "name": "norway_file",
+        "parser_name": "norway_file",
+        "x": 490,
+        "y": 400,
+        "wires": [
+            [
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "76e2463888726377",
+        "type": "file in",
+        "z": "eaaf8be7e967820e",
+        "name": "Norway Sbf",
+        "filename": "/home/lmx/a_septentrio/flow/selection.sbf",
+        "filenameType": "str",
+        "format": "",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 310,
+        "y": 400,
+        "wires": [
+            [
+                "560cbe97ed083c1e"
+            ]
+        ]
+    },
+    {
+        "id": "42381a5a3832b3d2",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "76e2463888726377"
+            ]
+        ]
+    },
+    {
+        "id": "682acbf33946e394",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "reset",
+        "props": [
+            {
+                "p": "command",
+                "v": "reset",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 510,
+        "y": 580,
+        "wires": [
+            [
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "0e284f40d01e9b52",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "restart",
+        "props": [
+            {
+                "p": "command",
+                "v": "restart",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 510,
+        "y": 540,
+        "wires": [
+            [
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "31579378dd0d71c3",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "+1 min",
+        "props": [
+            {
+                "p": "command",
+                "v": "fastForward",
+                "vt": "str"
+            },
+            {
+                "p": "time",
+                "v": "60000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 510,
+        "y": 460,
+        "wires": [
+            [
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "cf303ee0498924ba",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "-1 min",
+        "props": [
+            {
+                "p": "command",
+                "v": "fastForward",
+                "vt": "str"
+            },
+            {
+                "p": "time",
+                "v": "-60000",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 510,
+        "y": 500,
+        "wires": [
+            [
+                "3510c2531450f722"
+            ]
+        ]
+    },
+    {
+        "id": "84e54f819f0363e4",
+        "type": "debug",
+        "z": "eaaf8be7e967820e",
+        "name": "Mosaic",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1380,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "a359ea5f8184f21d",
+        "type": "switch",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "property": "blockName",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "GALAuthStatus",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "QualityInd",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 1230,
+        "y": 160,
+        "wires": [
+            [],
+            [
+                "84e54f819f0363e4"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "a552c475700fe035",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Set status 0b11",
+        "props": [
+            {
+                "p": "command",
+                "v": "set",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "Flags",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "3",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 460,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "e1151fc199ead232",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Set status 0b00",
+        "props": [
+            {
+                "p": "command",
+                "v": "set",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "Flags",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 580,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "a327a1199569a5ef",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Clear",
+        "props": [
+            {
+                "p": "command",
+                "v": "clear",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 700,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "a979bb83cb7885f6",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Get",
+        "props": [
+            {
+                "p": "command",
+                "v": "get",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 770,
+        "y": 740,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "373ab44575bafbb5",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Del status rule",
+        "props": [
+            {
+                "p": "command",
+                "v": "delete",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "Flags",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 750,
+        "y": 660,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "9b60924eb037faf8",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Set status 0b10",
+        "props": [
+            {
+                "p": "command",
+                "v": "set",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "Flags",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "2",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 500,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "c7b8f39f23e5d6d9",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Set status 0b01",
+        "props": [
+            {
+                "p": "command",
+                "v": "set",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "Flags",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 740,
+        "y": 540,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "0598734b6441cf34",
+        "type": "packet-replacer",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "initialRules": [],
+        "x": 1000,
+        "y": 320,
+        "wires": [
+            [
+                "5a052a3df07aed29",
+                "871fd15b23d5f10e",
+                "a359ea5f8184f21d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "871fd15b23d5f10e",
+        "type": "receiver-state",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 1260,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f213214ead2d6cfa",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Set N=0",
+        "props": [
+            {
+                "p": "command",
+                "v": "set",
+                "vt": "str"
+            },
+            {
+                "p": "blockName",
+                "v": "RFStatus",
+                "vt": "str"
+            },
+            {
+                "p": "fieldName",
+                "v": "N",
+                "vt": "str"
+            },
+            {
+                "p": "value",
+                "v": "0",
+                "vt": "num"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 760,
+        "y": 620,
+        "wires": [
+            [
+                "0598734b6441cf34"
+            ]
+        ]
+    },
+    {
+        "id": "0d00af4871687cdd",
+        "type": "serial-port",
+        "name": "Computer fixed length",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "1",
+        "bin": "bin",
+        "out": "count",
+        "addchar": "",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "34ae64e833f101aa",
+        "type": "serial-port",
+        "name": "Mosaic ACM1",
+        "serialport": "/dev/ttyACM1",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "1",
+        "bin": "bin",
+        "out": "count",
+        "addchar": "",
+        "responsetimeout": 10000
+    }
+]

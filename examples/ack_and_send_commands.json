@@ -1,0 +1,177 @@
+[
+    {
+        "id": "eaaf8be7e967820e",
+        "type": "tab",
+        "label": "Flow 8",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4deb2d408ac16f55",
+        "type": "serial in",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "a4af84c748f60b76",
+        "x": 240,
+        "y": 320,
+        "wires": [
+            [
+                "bbf6a02de1cefb32"
+            ]
+        ]
+    },
+    {
+        "id": "89d7f1c658503f9f",
+        "type": "debug",
+        "z": "eaaf8be7e967820e",
+        "name": "Debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "a15e33e28ff73ba1",
+        "type": "serial out",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "d56a1d37b95bd5ba",
+        "x": 850,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "bbf6a02de1cefb32",
+        "type": "command-parser",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "x": 430,
+        "y": 320,
+        "wires": [
+            [
+                "041e28c3c583dc0b",
+                "89d7f1c658503f9f"
+            ]
+        ]
+    },
+    {
+        "id": "c9ce900664265e5d",
+        "type": "serial out",
+        "z": "eaaf8be7e967820e",
+        "name": "",
+        "serial": "a4af84c748f60b76",
+        "x": 840,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "22539f56a46274a0",
+        "type": "inject",
+        "z": "eaaf8be7e967820e",
+        "name": "Activate",
+        "props": [
+            {
+                "p": "command",
+                "v": "stop",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 250,
+        "y": 240,
+        "wires": [
+            [
+                "6662477cd0249503"
+            ]
+        ]
+    },
+    {
+        "id": "6662477cd0249503",
+        "type": "send-sbf-command",
+        "z": "eaaf8be7e967820e",
+        "name": "Send command",
+        "sbf_command": "Send command",
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "a15e33e28ff73ba1"
+            ]
+        ]
+    },
+    {
+        "id": "041e28c3c583dc0b",
+        "type": "ack-command",
+        "z": "eaaf8be7e967820e",
+        "name": "Ack on reset",
+        "custom_commands": "",
+        "ack_sso": false,
+        "ack_sdio": false,
+        "ack_sno": false,
+        "ack_spm": false,
+        "ack_erst": false,
+        "ack_all": false,
+        "x": 650,
+        "y": 320,
+        "wires": [
+            [
+                "a15e33e28ff73ba1"
+            ],
+            [
+                "c9ce900664265e5d"
+            ]
+        ]
+    },
+    {
+        "id": "a4af84c748f60b76",
+        "type": "serial-port",
+        "name": "Computer",
+        "serialport": "/dev/ttyUSB0",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "\\n",
+        "bin": "false",
+        "out": "char",
+        "addchar": "",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "d56a1d37b95bd5ba",
+        "type": "serial-port",
+        "name": "Mosaic X5",
+        "serialport": "/dev/ttyACM0",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "200",
+        "bin": "bin",
+        "out": "time",
+        "addchar": "",
+        "responsetimeout": 10000
+    }
+]

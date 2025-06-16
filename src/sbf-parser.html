@@ -1,0 +1,70 @@
+<script type="text/javascript">
+    RED.nodes.registerType('sbf-parser', {
+        category: 'Septentrio',
+        color: '#FB9313',
+        defaults: {
+            name: { value: "" },
+            parser_name: {value: ""}
+        },
+        inputs: 1,
+        outputs: 1,
+        icon: "file.png",
+        label: function() {
+            return this.name || "sbf-parser";
+        },
+        oneditprepare: function() {
+            // Check if parser_name input is empty
+            if ($("#node-input-parser_name").val().trim() === "") {
+                // Generate a default name similar to the backend logic
+                const randomSuffix = Math.random().toString(36).substring(2, 7);
+                const defaultParserName = `default_name_${randomSuffix}`;
+                // Set the value of the input field
+                $("#node-input-parser_name").val(defaultParserName);
+            }
+        },
+    });
+</script>
+
+<script type="text/html" data-template-name="sbf-parser">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-parser_name"><i class="fa fa-tag"></i> Parser Name</label>
+        <input type="text" id="node-input-parser_name">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="sbf-parser">
+    <p>Parses incoming Septentrio Binary Format (SBF) data streams and other Septentrio message types.</p>
+    <p>Buffers SBF messages for batch processing via an external Python script.</p>
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>The message payload containing SBF, RTCM, NMEA, or other Septentrio data.</dd>
+    </dl>
+    <h3>Outputs</h3>
+    <ol>
+        <li>Parsed SBF blocks, Septentrio messages (replies, transmissions, descriptions, SNMP), RTCM, NMEA, or unknown message types.</li>
+    </ol>
+    <dl class="message-properties">
+        <dt>block_name <span class="property-type">string</span></dt>
+        <dd>(Only for SBF blocks) The name of the parsed SBF block (e.g., 'PVTGeodetic').</dd>
+        <dt>block <span class="property-type">object</span></dt>
+        <dd>(Only for SBF blocks) The parsed data content of the SBF block.</dd>
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>(For non-SBF messages or rejected SBF data) The raw message payload.</dd>
+        <dt>type <span class="property-type">string</span></dt>
+        <dd>Indicates the message type: 'SBF', 'septentrio_replie', 'septentrio_transmission', 'septentrio_description', 'septentrio_snmp', 'rtcm', 'nmea', 'rejected_sbf_buffer', or 'unknow'.</dd>
+        <dt>rejected_reason <span class="property-type">any</span></dt>
+        <dd>(Only for rejected_sbf_buffer) Information about why the SBF buffer was rejected by the parser.</dd>
+        <dt>infos <span class="property-type">string</span></dt>
+        <dd>(Only for 'unknow' type) Additional info about the unknown message type.</dd>
+        <dt>_parsed_by <span class="property-type">string</span></dt>
+        <dd>The name assigned to this parser node instance (either configured or a default random name).</dd>
+    </dl>
+    <h3>Details</h3>
+    <p>This node identifies and separates different message types from a Septentrio receiver stream. It buffers SBF messages and uses an external Python script (`python_parser.py`) for parsing them in batches to improve efficiency. Other message types are passed through directly. It also provides status information about the data throughput.</p>
+    <p>Configure the <b>Parser Name</b> to easily identify messages originating from this specific node instance in downstream flows. If left empty, a default name like `default_name_abc12` will be generated.</p>
+</script> e

@@ -1,0 +1,92 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ack-command',{
+        category: 'Septentrio',
+        color: '#d5fab4',
+        defaults: {
+            name: {value:""},
+            custom_commands: {value:""},
+            ack_sso: {value: false, required: false},
+            ack_sdio: {value: false, required: false},
+            ack_sno: {value: false, required: false},
+            ack_spm: {value: false, required: false},
+            ack_erst: {value: false, required: false},
+            ack_all: {value: false, required: false}
+        },
+        inputs:1,
+        outputs:2,
+        icon: "arrow-in.png",
+        label: function() {
+            let label = this.name || "ack command";
+            if (this.ack_all) {
+                label = this.name || "Ack: All";
+            } else {
+                const predefined = ["sso", "sdio", "sno", "spm", "erst", "SSSSSSSSSS"]
+                                   .filter(cmd => this[`ack_${cmd}`])
+                                   .join(', ');
+                const custom = (this.custom_commands || "").substring(0, 15) + ((this.custom_commands || "").length > 15 ? "..." : "");
+                let parts = [];
+                if (predefined) parts.push(predefined);
+                if (custom) parts.push(custom);
+                if (parts.length > 0) {
+                    label = this.name || `Ack: ${parts.join(', ')}`;
+                }
+            }
+            return label;
+        },
+        paletteLabel: "ack command"
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ack-command">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+
+    <div class="form-row">
+        <label style="width: auto;" for="node-input-ack_all"><input type="checkbox" id="node-input-ack_all" style="display: inline-block; width: auto; vertical-align: top;"> Acknowledge All Commands</label>
+    </div>
+
+    <hr>
+    <div style="margin-bottom: 5px;"><b>Or select specific commands:</b></div>
+
+    <div class="form-row">
+        <label style="width: 100%; margin-bottom: 5px;">Predefined Commands:</label>
+        <span style="margin-left: 20px;">
+            <label style="width: auto; margin-right: 15px;" for="node-input-ack_sso"><input type="checkbox" id="node-input-ack_sso" style="display: inline-block; width: auto; vertical-align: middle;"> sso</label>
+            <label style="width: auto; margin-right: 15px;" for="node-input-ack_sdio"><input type="checkbox" id="node-input-ack_sdio" style="display: inline-block; width: auto; vertical-align: middle;"> sdio</label>
+            <label style="width: auto; margin-right: 15px;" for="node-input-ack_sno"><input type="checkbox" id="node-input-ack_sno" style="display: inline-block; width: auto; vertical-align: middle;"> sno</label>
+            <label style="width: auto; margin-right: 15px;" for="node-input-ack_spm"><input type="checkbox" id="node-input-ack_spm" style="display: inline-block; width: auto; vertical-align: middle;"> spm</label>
+            <label style="width: auto;" for="node-input-ack_erst"><input type="checkbox" id="node-input-ack_erst" style="display: inline-block; width: auto; vertical-align: middle;"> erst</label>
+        </span>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-custom_commands"><i class="fa fa-list"></i> Custom Commands</label>
+        <input type="text" id="node-input-custom_commands" placeholder="cmd1,cmd2,cmd3">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="ack-command">
+    <p>Acknowledges specific Septentrio commands based on configuration.</p>
+    <p>This node listens for messages with <code>msg.type</code> set to <code>"septentrio_command"</code> and checks the <code>msg.command_name</code> property.</p>
+
+    <h4>Configuration:</h4>
+    <ul>
+        <li><b>Acknowledge All Commands:</b> If checked, any incoming command in <code>msg.command_name</code> will be acknowledged.</li>
+        <li><b>Predefined Commands:</b> Check the boxes for common commands (sso, sdio, sno, spm, erst) you want to acknowledge.</li>
+        <li><b>Custom Commands:</b> Enter a comma-separated list of additional command names to acknowledge.</li>
+    </ul>
+
+    <h4>Output:</h4>
+    <p>If the incoming <code>msg.command_name</code> matches the configuration (either 'All', a checked predefined command, or a listed custom command), the node sends a reply message:</p>
+    <ul>
+        <li><code>msg.type</code>: <code>"septentrio_replie"</code></li>
+        <li><code>msg.message</code>: <code>$R:&lt;command_name&gt;</code> (where <code>&lt;command_name&gt;</code> is the acknowledged command from <code>msg.command_name</code>)</li>
+        <li><code>msg.payload</code>: A Buffer containing the ASCII encoded <code>msg.message</code> string.</li>
+        <li><code>msg.acknowledged_command</code>: The original command name that was acknowledged.</li>
+    </ul>
+    <p>If a command arrives that is not configured for acknowledgement, it is logged and dropped (unless modified to pass through).</p>
+    <p>Messages without <code>msg.type = "septentrio_command"</code> or without a valid string <code>msg.command_name</code> will cause a warning or be passed through if they are not of type `septentrio_command`.</p>
+</script>

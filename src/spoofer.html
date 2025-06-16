@@ -1,0 +1,119 @@
+<!-- Spoofer Node HTML -->
+<script type="text/javascript">
+    RED.nodes.registerType('spoofer',{
+        category: 'Septentrio',
+        color: '#fb9313',
+        defaults: {
+            name: {value:""},
+            skipAfterMs: {value: 2000, required: true, validate: RED.validators.number()},
+            skipDurationMs: {value: 10, required: true, validate: RED.validators.number()},
+            memoryParserName: {value: "", required: false},
+            startAtTOW: {value: 0, required: false, validate: RED.validators.number()},
+            endAtTOW: {value: 0, required: false, validate: RED.validators.number()}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "inject.svg",
+        label: function() {
+            return this.name || "Spoofer";
+        },
+        inputLabels: "SBF Messages",
+        outputLabels: "Spoofed Messages"
+    });
+</script>
+
+<script type="text/html" data-template-name="spoofer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Spoofer">
+    </div>
+    <div class="form-row">
+        <label for="node-input-skipAfterMs"><i class="fa fa-hourglass-half"></i> Skip After (ms)</label>
+        <input type="number" id="node-input-skipAfterMs" placeholder="2000" style="width: 100px;">
+        <span style="margin-left: 10px;">Maximum time gap between messages before skipping.</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-skipDurationMs"><i class="fa fa-forward"></i> Skip Duration (ms)</label>
+        <input type="number" id="node-input-skipDurationMs" placeholder="10" style="width: 100px;">
+        <span style="margin-left: 10px;">Duration to skip when time gap exceeds Skip After.</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-memoryParserName"><i class="fa fa-code-fork"></i> Parser to Record</label>
+        <input type="text" id="node-input-memoryParserName" placeholder="Leave empty to set via command">
+        <span style="margin-left: 10px;">Name of the parser to record messages from. Can also be set via command.</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-startAtTOW"><i class="fa fa-clock"></i> Start TOW (s)</label>
+        <input type="number" id="node-input-startAtTOW" placeholder="0" style="width: 100px;">
+        <span style="margin-left: 10px;">Only record messages after this TOW. Set to 0 to disable.</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-endAtTOW"><i class="fa fa-clock"></i> End TOW (ms)</label>
+        <input type="number" id="node-input-endAtTOW" placeholder="0" style="width: 100px;">
+        <span style="margin-left: 10px;">Only record messages before this TOW. Set to 0 to disable.</span>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="spoofer">
+    <p>Records SBF messages from a specific parser and replays them to spoof other parsers.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>An SBF message block. The node expects a <code>msg._parsed_by</code> property to identify the parser.</dd>
+        <dt>command <span class="property-type">string</span></dt>
+        <dd>A command to control the spoofer:
+            <ul>
+                <li><code>reset</code>: Clears the recorded messages and resets the spoofer state.</li>
+                <li><code>restart</code>: Restarts playback from the beginning.</li>
+                <li><code>setSpoofingParser</code>: Sets the parser to record messages from.</li>
+                <li><code>fastForward</code>: Fast forwards playback by the specified time (in ms).</li>
+                <li><code>setTime</code>: Sets the current playback time to the specified time (in ms).</li>
+            </ul>
+        </dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>The spoofed SBF message block.</dd>
+        <dt>_spoofing <span class="property-type">string</span></dt>
+        <dd>Indicates if the message was spoofed or not.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>This node works in two modes:</p>
+    <ol>
+        <li><b>Recording Mode:</b> When receiving messages from the designated parser (set via configuration or <code>setSpoofingParser</code> command), it records the messages and their relative timestamps.</li>
+        <li><b>Spoofing Mode:</b> When receiving messages from other parsers, it replays the recorded messages, maintaining the relative timing between them.</li>
+    </ol>
+
+    <p>The node maintains the following state:</p>
+    <ul>
+        <li>Recorded messages and their relative timestamps</li>
+        <li>The parser name being recorded from</li>
+        <li>Playback position and timing information</li>
+    </ul>
+
+    <h3>Configuration</h3>
+    <dl class="message-properties">
+        <dt>Skip After (ms)</dt>
+        <dd>If the time gap between consecutive messages exceeds this value (in milliseconds), the node will skip ahead to maintain smooth playback. Default is 2000ms.</dd>
+        <dt>Skip Duration (ms)</dt>
+        <dd>When a time gap exceeds the Skip After threshold, this value determines how much time to skip. Default is 10ms.</dd>
+        <dt>Parser to Record</dt>
+        <dd>The name of the parser to record messages from. This can be set either in the configuration or via the <code>setSpoofingParser</code> command. If left empty, it must be set via command before recording can begin.</dd>
+        <dt>Start TOW (ms)</dt>
+        <dd>Only record messages that have a TOW greater than or equal to this value. Set to 0 to disable this filter.</dd>
+        <dt>End TOW (ms)</dt>
+        <dd>Only record messages that have a TOW less than or equal to this value. Set to 0 to disable this filter.</dd>
+    </dl>
+
+    <h3>Status</h3>
+    <p>The node's status shows:</p>
+    <ul>
+        <li>Number of recorded message blocks</li>
+        <li>Playback progress and estimated time remaining</li>
+        <li>Current command being executed</li>
+    </ul>
+</script>

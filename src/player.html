@@ -1,0 +1,94 @@
+<!-- Player Node HTML -->
+<script type="text/javascript">
+    RED.nodes.registerType('player',{
+        category: 'Septentrio',
+        color: '#fb9313',
+        defaults: {
+            name: {value:""},
+            changeTimeToActual: {value: true, required: true},
+            maxWaitThreshold: {value: 5000, required: true, validate: RED.validators.number()},
+            fallbackWaitTime: {value: 500, required: true, validate: RED.validators.number()}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "inject.svg",
+        label: function() {
+            return this.name || "Player";
+        },
+        inputLabels: "Control (Activate/Pause)",
+        outputLabels: "GNSS Stream"
+    });
+</script>
+
+<script type="text/html" data-template-name="player">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Player">
+    </div>
+    <div class="form-row">
+        <label for="node-input-changeTimeToActual" style="width: 70%"><i class="fa fa-clock-o"></i> Adjust Time to Actual</label>
+        <input type="checkbox" id="node-input-changeTimeToActual" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-changeTimeToActual" style="width: auto"> Shift message timestamps during playback?</label>
+    </div>
+    <div class="form-row">
+        <label for="node-input-maxWaitThreshold"><i class="fa fa-hourglass-half"></i> Max Wait Threshold (ms)</label>
+        <input type="number" id="node-input-maxWaitThreshold" placeholder="5000" style="width: 100px;">
+        <span style="margin-left: 10px;">Maximum delay before fast-forwarding.</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-fallbackWaitTime"><i class="fa fa-step-forward"></i> Fallback Wait (ms)</label>
+        <input type="number" id="node-input-fallbackWaitTime" placeholder="500" style="width: 100px;">
+        <span style="margin-left: 10px;">Wait time used when fast-forwarding.</span>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="player">
+    <p>Buffers incoming SBF messages with timestamps and plays them back sequentially based on their relative time.</p>
+
+    <h3>Inputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>An SBF message block. The node expects an associated <code>msg.timestamp</code> property (in milliseconds) for buffering.</dd>
+        <dt>payload <span class="property-type">string</span></dt>
+        <dd>A command to control the player:
+            <ul>
+                <li><code>clear</code>: Stops playback (if active) and clears the internal message buffer.</li>
+                <li><code>start</code>: Starts playback from the buffered messages, sending them out based on the time difference from the first message.</li>
+                <li><code>stop</code>: Stops the current playback.</li>
+            </ul>
+        </dd>
+        <dt>timestamp <span class="property-type">number</span></dt>
+        <dd>The absolute timestamp (e.g., milliseconds since epoch) associated with the SBF <code>msg.payload</code>. Required for buffering.</dd>
+    </dl>
+
+    <h3>Outputs</h3>
+    <dl class="message-properties">
+        <dt>payload <span class="property-type">buffer</span></dt>
+        <dd>The SBF message block being played back.</dd>
+        <dt>originalTimestamp <span class="property-type">number</span></dt>
+        <dd>The original timestamp (in milliseconds) that was associated with the message when it was buffered.</dd>
+    </dl>
+
+    <h3>Details</h3>
+    <p>This node collects SBF messages, storing them along with their timestamps. Messages are stored in an internal buffer.</p>
+    <p>When a <code>start</code> command is received:
+        <ol>
+            <li>The buffer is sorted by timestamp (earliest first).</li>
+            <li>Playback begins immediately with the first message.</li>
+            <li>Subsequent messages are sent out after a delay calculated from the time difference between their timestamp and the first message's timestamp.</li>
+            <li>The node status indicates playback progress.</li>
+        </ol>
+    </p>
+    <p>The <code>stop</code> command halts playback, and <code>clear</code> stops playback and empties the buffer.</p>
+    <p>The <code>Adjust Time to Actual</code> option is not yet implemented.</p>
+
+    <h3>Configuration</h3>
+    <dl class="message-properties">
+        <dt>Adjust Time to Actual</dt>
+        <dd>If checked, the node should (in the future) adjust timestamps. Currently not implemented.</dd>
+        <dt>Max Wait Threshold (ms)</dt>
+        <dd>Specifies the maximum calculated delay (in milliseconds) between messages before the player considers it a large gap and fast-forwards. Default is 5000ms.</dd>
+        <dt>Fallback Wait (ms)</dt>
+        <dd>When the delay between messages exceeds the 'Max Wait Threshold', the player will only wait for this duration (in milliseconds) instead of the calculated delay, effectively skipping ahead. The playback start time is adjusted to maintain relative timing for subsequent messages. Default is 500ms.</dd>
+    </dl>
+</script>

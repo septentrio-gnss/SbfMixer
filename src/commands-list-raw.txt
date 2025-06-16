@@ -1,0 +1,479 @@
+INDEX OF COMMANDS
+A
+AGCMode
+setAGCMode, getAGCMode
+sam, gam, 105
+AntennaInfo
+lstAntennaInfo
+lai, 67
+AntennaLocation
+setAntennaLocation, getAntennaLocation
+sal, gal, 138
+AntennaOffset
+setAntennaOffset, getAntennaOffset
+sao, gao, 109
+AttitudeOffset
+setAttitudeOffset, getAttitudeOffset
+sto, gto, 139
+B
+BBSamplingMode
+setBBSamplingMode, getBBSamplingMode
+sbbs, gbbs, 106
+C
+CalibCommonDelay
+setCalibCommonDelay, getCalibCommonDelay
+scco, gcco, 91
+CalibSignalDelay
+setCalibSignalDelay, getCalibSignalDelay
+scsi, gcsi, 92
+ChannelAllocation
+setChannelAllocation, getChannelAllocation
+sca, gca, 93
+CheckInternetAvailability
+setCheckInternetAvailability, getCheckInternetAvailability
+scia, gcia, 162
+ClockSyncThreshold
+setClockSyncThreshold, getClockSyncThreshold
+scst, gcst, 150
+CMRv2Formatting
+setCMRv2Formatting, getCMRv2Formatting
+sc2f, gc2f, 219
+CMRv2Interval
+setCMRv2Interval, getCMRv2Interval
+sc2i, gc2i, 220
+CMRv2Message2
+setCMRv2Message2, getCMRv2Message2
+sc2m, gc2m, 221
+CMRv2Output
+setCMRv2Output, getCMRv2Output
+sc2o, gc2o, 222
+CMRv2Usage
+setCMRv2Usage, getCMRv2Usage
+sc2u, gc2u, 223
+CN0Mask
+setCN0Mask, getCN0Mask
+scm, gcm, 95
+CommandHelp
+lstCommandHelp
+help, 68
+COMSettings
+setCOMSettings, getCOMSettings
+scs, gcs, 163
+ConfigFile
+lstConfigFile
+lcf, 69
+CopyConfigFile
+exeCopyConfigFile, getCopyConfigFile
+eccf, gccf, 70
+CrossDomainWebAccess
+setCrossDomainWebAccess, getCrossDomainWebAccess
+scda, gcda, 164
+CurrentUser
+lstCurrentUser
+lcu, 86
+D
+DaisyChainMode
+setDaisyChainMode, getDaisyChainMode
+sdcm, gdcm, 165
+DataInOut
+setDataInOut, getDataInOut
+sdio, gdio, 166
+DefaultAccessLevel
+setDefaultAccessLevel, getDefaultAccessLevel
+sdal, gdal, 87
+DiffCorrMaxAge
+setDiffCorrMaxAge, getDiffCorrMaxAge
+sdca, gdca, 110
+DiffCorrUsage
+setDiffCorrUsage, getDiffCorrUsage
+sdcu, gdcu, 111
+DiskFullAction
+setDiskFullAction, getDiskFullAction
+sdfa, gdfa, 224
+DiskInfo
+lstDiskInfo
+ldi, 225
+DynamicDNS
+setDynamicDNS, getDynamicDNS
+sdds, gdds, 168
+E
+EchoMessage
+exeEchoMessage, getEchoMessage
+eecm, gecm, 169
+ElevationMask
+setElevationMask, getElevationMask
+sem, gem, 112
+ENHTransfoHorizontal
+setENHTransfoHorizontal, getENHTransfoHorizontal
+smth, gmth, 146
+ENHTransfoVertical
+setENHTransfoVertical, getENHTransfoVertical
+smtv, gmtv, 147
+EthernetMode
+setEthernetMode, getEthernetMode
+seth, geth, 71
+EventParameters
+setEventParameters, getEventParameters
+sep, gep, 151
+F
+FileNaming
+setFileNaming, getFileNaming
+sfn, gfn, 226
+FTPPushRINEX
+setFTPPushRINEX, getFTPPushRINEX
+sfpr, gfpr, 235
+FTPPushSBF
+setFTPPushSBF, getFTPPushSBF
+sfps, gfps, 236
+FTPPushTest
+exeFTPPushTest, getFTPPushTest
+efpt, gfpt, 237
+FTPUpgrade
+exeFTPUpgrade, getFTPUpgrade
+efup, gfup, 72
+G
+GalOSNMAPublicKeys
+lstGalOSNMAPublicKeys
+lopk, 135
+setGalOSNMAPublicKeys, getGalOSNMAPublicKeys
+sopk, gopk, 136
+GalOSNMAUsage
+setGalOSNMAUsage, getGalOSNMAUsage
+429
+INDEX OF COMMANDS
+sou, gou, 137
+GeodeticDatum
+setGeodeticDatum, getGeodeticDatum
+sgd, ggd, 141
+GeoidUndulation
+setGeoidUndulation, getGeoidUndulation
+sgu, ggu, 113
+GlobalFileNamingOptions
+setGlobalFileNamingOptions, getGlobalFileNamingOptions
+sfno, gfno, 228
+GNSSAttitude
+setGNSSAttitude, getGNSSAttitude
+sga, gga, 140
+GPIOFunctionality
+setGPIOFunctionality, getGPIOFunctionality
+sgpf, ggpf, 73
+H
+HealthMask
+setHealthMask, getHealthMask
+shm, ghm, 114
+HttpsSettings
+setHttpsSettings, getHttpsSettings
+shs, ghs, 171
+I
+InternalFile
+lstInternalFile
+lif, 74
+IonosphereModel
+setIonosphereModel, getIonosphereModel
+sim, gim, 115
+IPFiltering
+setIPFiltering, getIPFiltering
+sipf, gipf, 172
+IPKeepAlive
+setIPKeepAlive, getIPKeepAlive
+sipk, gipk, 173
+IPPortSettings
+setIPPortSettings, getIPPortSettings
+sipp, gipp, 174
+IPReceiveSettings
+setIPReceiveSettings, getIPReceiveSettings
+sirs, girs, 175
+IPServerSettings
+setIPServerSettings, getIPServerSettings
+siss, giss, 176
+IPSettings
+setIPSettings, getIPSettings
+sips, gips, 177
+L
+LBandBeams
+430
+INDEX OF COMMANDS
+lstLBandBeams
+llbb, 238
+setLBandBeams, getLBandBeams
+slbb, glbb, 239
+LBandCustomServiceID
+setLBandCustomServiceID, getLBandCustomServiceID
+slcs, glcs, 240
+LBandNTRIPDelivery
+setLBandNTRIPDelivery, getLBandNTRIPDelivery
+slnd, glnd, 241
+LBandSelectMode
+setLBandSelectMode, getLBandSelectMode
+slsm, glsm, 242
+LEDMode
+setLEDMode, getLEDMode
+slm, glm, 75
+LocalCoordOperation
+setLocalCoordOperation, getLocalCoordOperation
+slco, glco, 148
+LocalCoordOperations
+lstLocalCoordOperations
+llc, 149
+LogIn
+LogIn
+login, 88
+LogOut
+LogOut
+logout, 89
+M
+MagneticVariance
+setMagneticVariance, getMagneticVariance
+smv, gmv, 117
+ManageDisk
+exeManageDisk, getManageDisk
+emd, gmd, 229
+MarkerParameters
+setMarkerParameters, getMarkerParameters
+smp, gmp, 159
+Meas3MaxRefInterval
+setMeas3MaxRefInterval, getMeas3MaxRefInterval
+smrf, gmrf, 195
+MIBDescription
+lstMIBDescription
+lmd, 76
+MultipathMitigation
+setMultipathMitigation, getMultipathMitigation
+smm, gmm, 96
+N
+NetworkRTKConﬁg
+setNetworkRTKConﬁg, getNetworkRTKConﬁg
+431
+INDEX OF COMMANDS
+snrc, gnrc, 118
+NMEAOnce
+exeNMEAOnce, getNMEAOnce
+enoc, gnoc, 189
+NMEAOutput
+setNMEAOutput, getNMEAOutput
+sno, gno, 190
+NMEAPrecision
+setNMEAPrecision, getNMEAPrecision
+snp, gnp, 192
+NMEATalkerID
+setNMEATalkerID, getNMEATalkerID
+snti, gnti, 193
+NMEAVersion
+setNMEAVersion, getNMEAVersion
+snv, gnv, 194
+NotchFiltering
+setNotchFiltering, getNotchFiltering
+snf, gnf, 107
+NtpClient
+setNtpClient, getNtpClient
+snc, gnc, 152
+NTPServer
+setNTPServer, getNTPServer
+sntp, gntp, 153
+NtripCasterMountPoints
+setNtripCasterMountPoints, getNtripCasterMountPoints
+snmp, gnmp, 182
+NtripCasterMPFormat
+setNtripCasterMPFormat, getNtripCasterMPFormat
+smpf, gmpf, 183
+NtripCasterSettings
+setNtripCasterSettings, getNtripCasterSettings
+sncs, gncs, 184
+NtripCasterUsers
+setNtripCasterUsers, getNtripCasterUsers
+sncu, gncu, 185
+NtripSettings
+setNtripSettings, getNtripSettings
+snts, gnts, 186
+NTRIPSourceTable
+lstNTRIPSourceTable
+lnst, 187
+NtripTlsSettings
+setNtripTlsSettings, getNtripTlsSettings
+sntt, gntt, 188
+O
+ObserverComment
+setObserverComment, getObserverComment
+soc, goc, 160
+ObserverParameters
+432
+INDEX OF COMMANDS
+setObserverParameters, getObserverParameters
+sop, gop, 161
+P
+PeriodicEcho
+setPeriodicEcho, getPeriodicEcho
+spe, gpe, 178
+PointToPoint
+setPointToPoint, getPointToPoint
+sp2p, gp2p, 180
+PortFirewall
+setPortFirewall, getPortFirewall
+spfw, gpfw, 181
+PowerMode
+exePowerMode, getPowerMode
+epwm, gpwm, 85
+PPSParameters
+setPPSParameters, getPPSParameters
+spps, gpps, 154
+PTPServer
+setPTPServer, getPTPServer
+sptp, gptp, 156
+PVTMode
+setPVTMode, getPVTMode
+spm, gpm, 119
+R
+RAIMLevels
+setRAIMLevels, getRAIMLevels
+srl, grl, 121
+ReceiverCapabilities
+getReceiverCapabilities
+grc, 77
+ReceiverDynamics
+setReceiverDynamics, getReceiverDynamics
+srd, grd, 122
+ReceiverInterface
+getReceiverInterface
+gri, 80
+RecordedFile
+lstRecordedFile
+lrf, 230
+RegisteredApplications
+exeRegisteredApplications, getRegisteredApplications
+era, gra, 81
+RemoveFile
+exeRemoveFile, getRemoveFile
+erf, grf, 231
+ResetNavFilter
+exeResetNavFilter, getResetNavFilter
+ernf, grnf, 123
+ResetReceiver
+433
+INDEX OF COMMANDS
+exeResetReceiver, getResetReceiver
+erst, grst, 82
+RINEXLogging
+setRINEXLogging, getRINEXLogging
+srxl, grxl, 232
+RTCMv2Compatibility
+setRTCMv2Compatibility, getRTCMv2Compatibility
+sr2c, gr2c, 202
+RTCMv2EphemerisHoldoff
+setRTCMv2EphemerisHoldoff, getRTCMv2EphemerisHoldoff
+sr2h, gr2h, 203
+RTCMv2Formatting
+setRTCMv2Formatting, getRTCMv2Formatting
+sr2f, gr2f, 204
+RTCMv2Interval
+setRTCMv2Interval, getRTCMv2Interval
+sr2i, gr2i, 205
+RTCMv2IntervalObs
+setRTCMv2IntervalObs, getRTCMv2IntervalObs
+sr2b, gr2b, 206
+RTCMv2Message16
+setRTCMv2Message16, getRTCMv2Message16
+sr2m, gr2m, 207
+RTCMv2Output
+setRTCMv2Output, getRTCMv2Output
+sr2o, gr2o, 208
+RTCMv2Usage
+setRTCMv2Usage, getRTCMv2Usage
+sr2u, gr2u, 209
+RTCMv3CRSTransfo
+setRTCMv3CRSTransfo, getRTCMv3CRSTransfo
+sr3t, gr3t, 210
+RTCMv3Delay
+setRTCMv3Delay, getRTCMv3Delay
+sr3d, gr3d, 211
+RTCMv3Formatting
+setRTCMv3Formatting, getRTCMv3Formatting
+sr3f, gr3f, 212
+RTCMv3Interval
+setRTCMv3Interval, getRTCMv3Interval
+sr3i, gr3i, 214
+RTCMv3Message1029
+setRTCMv3Message1029, getRTCMv3Message1029
+sr3m, gr3m, 215
+RTCMv3Output
+setRTCMv3Output, getRTCMv3Output
+sr3o, gr3o, 216
+RTCMv3Usage
+setRTCMv3Usage, getRTCMv3Usage
+sr3u, gr3u, 218
+434
+INDEX OF COMMANDS
+S
+SatelliteTracking
+setSatelliteTracking, getSatelliteTracking
+sst, gst, 97
+SatelliteUsage
+setSatelliteUsage, getSatelliteUsage
+ssu, gsu, 124
+SBASCorrections
+setSBASCorrections, getSBASCorrections
+ssbc, gsbc, 126
+SBFGroups
+setSBFGroups, getSBFGroups
+ssgp, gsgp, 196
+SBFOnce
+exeSBFOnce, getSBFOnce
+esoc, gsoc, 197
+SBFOutput
+setSBFOutput, getSBFOutput
+sso, gso, 199
+SignalTracking
+setSignalTracking, getSignalTracking
+snt, gnt, 99
+SignalUsage
+setSignalUsage, getSignalUsage
+snu, gnu, 128
+SmoothingInterval
+setSmoothingInterval, getSmoothingInterval
+ssi, gsi, 101
+StaticPosCartesian
+setStaticPosCartesian, getStaticPosCartesian
+sspc, gspc, 129
+StaticPosGeodetic
+setStaticPosGeodetic, getStaticPosGeodetic
+sspg, gspg, 131
+T
+TimeSyncSource
+setTimeSyncSource, getTimeSyncSource
+stss, gtss, 157
+TimingSystem
+setTimingSystem, getTimingSystem
+sts, gts, 158
+TrackingLoopParameters
+setTrackingLoopParameters, getTrackingLoopParameters
+stlp, gtlp, 103
+TroposphereModel
+setTroposphereModel, getTroposphereModel
+stm, gtm, 132
+TroposphereParameters
+setTroposphereParameters, getTroposphereParameters
+stp, gtp, 134
+435
+INDEX OF COMMANDS
+U
+UMSDOnConnect
+setUMSDOnConnect, getUMSDOnConnect
+suoc, guoc, 234
+USBInternetAccess
+setUSBInternetAccess, getUSBInternetAccess
+suia, guia, 84
+UserAccessLevel
+setUserAccessLevel, getUserAccessLevel
+sual, gual, 90
+UserDatum
+setUserDatum, getUserDatum
+sud, gud, 143
+UserDatumVel
+setUserDatumVel, getUserDatumVel
+sudv, gudv, 144
+UserEllipsoid
+setUserEllipsoid, getUserEllipsoid
+sue, gue, 145
+W
+WBIMitigation
+setWBIMitigation, getWBIMitigation
+swbi, gwbi, 108

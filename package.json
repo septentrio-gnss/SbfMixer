@@ -1,0 +1,32 @@
+{
+  "name": "@septentrio-gnss/node-red-sbf-mixer",
+  "version": "1.0.0",
+  "description": "Mix sbf file, serial input and receiver output",
+  "dependencies": {
+    "node-red": "^4.0.9",
+    "util.log": "^0.0.45"
+  },
+  "keywords": [
+    "node-red",
+    "septentrio",
+    "sbf",
+    "gnss"
+  ],
+  "main": "index.js",
+  "node-red": {
+    "version": ">=2.0.0",
+    "nodes": {
+      "sbf-parser": "src/sbf-parser.js",
+      "command-parser": "src/command-parser.js",
+      "sbf-encoder": "src/sbf-encoder.js",
+      "player": "src/player.js",
+      "send-sbf-command": "src/send-sbf-command.js",
+      "ack-command": "src/ack-command.js",
+      "on-change": "src/on-change.js",
+      "bottleneck": "src/bottleneck.js",
+      "spoofer": "src/spoofer.js",
+      "packet-replacer": "src/packet-replacer.js",
+      "receiver-state": "src/receiver-state.js"
+    }
+  }
+}

@@ -1,0 +1,128 @@
+<script type="text/javascript">
+    (function() {
+        RED.nodes.registerType('packet-replacer', {
+            category: 'Septentrio',
+            color: '#4DB8FF',
+            defaults: {
+                name: { value: "" },
+                initialRules: { value: [] }
+            },
+            inputs: 1,
+            outputs: 2,
+            outputLabels: ["Modified Packet", "Debug/Rules"],
+            icon: "swap.svg",
+            align: "left",
+            label: function() {
+                return this.name || "packet replacer";
+            },
+            oneditprepare: function() {
+                var node = this;
+                var container = $('#node-input-rule-container');
+    
+                var labelBlockId = "Block ID";
+                var labelFieldName = "Field Name";
+                var labelValue = "Value";
+    
+                container.css('min-height','250px').css('min-width','450px').editableList({
+                    header: $('<div/>').css({display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingLeft: '75px'}).append(
+                        $('<div/>', {text: labelBlockId, style: 'width: 100px; margin-right: 5px; font-weight: bold;'}),
+                        $('<div/>', {text: labelFieldName, style: 'width: 150px; margin-right: 5px; font-weight: bold;'}),
+                        $('<div/>', {text: labelValue, style: 'width: 150px; font-weight: bold;'})
+                    ),
+                    addItem: function(rowContainer, i, rule) {
+                        if (!rule.hasOwnProperty('blockId')) {
+                            rule = { blockId: "", fieldName: "", value: "" };
+                        }
+    
+                        // Main row for inputs
+                        var mainRow = $('<div/>').css({
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '5px 0'
+                        }).appendTo(rowContainer);
+    
+                        // Block ID input
+                        var blockIdInput = $('<input/>', { class: "node-input-rule-blockId", type: "text", style: "width: 100px; margin-right: 5px;"})
+                            .appendTo(mainRow)
+                            .val(rule.blockId);
+    
+                        // Field Name input
+                        var fieldNameInput = $('<input/>', { class: "node-input-rule-fieldName", type: "text", style: "width: 150px; margin-right: 5px;" })
+                            .appendTo(mainRow)
+                            .val(rule.fieldName);
+    
+                        // Value input (simple text for now)
+                        var valueInput = $('<input/>', { class: "node-input-rule-value", type: "text", style: "width: 150px;" })
+                             .appendTo(mainRow)
+                             .val(rule.value);
+                    },
+                    removable: true,
+                    sortable: true
+                });
+    
+                if (node.initialRules) {
+                    node.initialRules.forEach(function(rule) {
+                        container.editableList('addItem', rule);
+                    });
+                }
+            },
+            oneditsave: function() {
+                var node = this;
+                var ruleListItems = $("#node-input-rule-container").editableList('items');
+                node.initialRules = [];
+                ruleListItems.each(function(i) {
+                    var ruleElement = $(this);
+                    var rule = {
+                        blockId: ruleElement.find(".node-input-rule-blockId").val(),
+                        fieldName: ruleElement.find(".node-input-rule-fieldName").val(),
+                        value: ruleElement.find(".node-input-rule-value").val()
+                    };
+                    
+                    // Only save rules that have at least blockId and fieldName defined
+                    if (rule.blockId && rule.fieldName) {
+                        node.initialRules.push(rule);
+                    }
+                });
+            },
+            oneditresize: function(size) {
+                var rows = $("#dialog-form>div:not(.node-input-rule-container-row)");
+                var height = size.height;
+                for (var i = 0; i < rows.length; i++) {
+                    height -= $(rows[i]).outerHeight(true);
+                }
+                var editorRow = $("#dialog-form>div.node-input-rule-container-row");
+                height -= (parseInt(editorRow.css("marginTop")) + parseInt(editorRow.css("marginBottom")));
+                height -= 60;
+    
+                $("#node-input-rule-container").editableList('height', height);
+            }
+        });
+    })();
+    </script>
+    
+
+<script type="text/html" data-template-name="packet-replacer">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row" style="margin-bottom: 0px;">
+        <label><i class="fa fa-list"></i> Initial Rules</label>
+        <span style="font-size: 0.8em; color: #888; margin-left: 10px;">(Runtime rules managed via input messages)</span>
+    </div>
+    <div class="form-row node-input-rule-container-row">
+        <ol id="node-input-rule-container" style="list-style-type: none; margin: 0;"></ol>
+    </div>
+    <div class="form-tips">
+        <p><b>Note:</b> This node modifies fields within incoming message payloads based on <code>blockId</code> and <code>fieldName</code>.</p>
+        <p>It assumes <code>msg.payload</code> is an object containing a <code>blockId</code> property and other properties representing fields.</p>
+        <p>Use input messages with <code>msg.command</code> set to configure rules at runtime:</p>
+        <ul>
+            <li><code>set</code>: Requires <code>msg.blockId</code>, <code>msg.fieldName</code>, <code>msg.value</code>. Adds/updates a rule.</li>
+            <li><code>get</code>: Sends current rules map <code>{ blockId: { fieldName: value } }</code> to the second output.</li>
+            <li><code>clear</code>: Removes all rules.</li>
+            <li><code>delete</code>: Requires <code>msg.blockId</code>, <code>msg.fieldName</code>. Removes a specific rule.</li>
+        </ul>
+         <p>The second output provides debug information (e.g., result of 'get' command).</p>
+    </div>
+</script>
