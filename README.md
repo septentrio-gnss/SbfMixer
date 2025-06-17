@@ -15,22 +15,21 @@ Then, install Sbf mixer with these commands :
 ```bash
 # Setup environment
 cd ~
-git clone --recurse-submodules https://github.com/septentrio-gnss/SbfMixer
+git clone https://github.com/septentrio-gnss/SbfMixer
 cd SbfMixer
 
-# Setup python
+
+# Setup python and SbfParser
 python3 -m venv venv
 source venv/bin/activate
+pip install sbf-parser
 
-# Setup SbfParser
-cd SbfParser
-pip install -e .
-cd ..
 
 # Install packages
 cd ~/.node-red
 npm install ~/SbfMixer
 npm install node-red-node-serialport
+
 
 # Run node-red if you have installed using your package manager
 node-red
