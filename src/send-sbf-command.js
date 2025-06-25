@@ -3,6 +3,8 @@ module.exports = function(RED) {
 
     function SendSbfCommandNode(config) {
         RED.nodes.createNode(this, config);
+        const node = this;
+        
         this.name = config.name;
         this.sbf_command = config.sbf_command || "";
         this.useButton = config.useButton || false;
