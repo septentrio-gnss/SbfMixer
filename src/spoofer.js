@@ -190,17 +190,17 @@ module.exports = function(RED) {
                 return;
             }
 
+            // Not enough messages
+            if(relativeTimes.length == 0 || (relativeTimes[relativeTimes.length - 1] < 2000)){ // At least 2s
+                node.send(msg);
+                updateStatus();
+                return
+            }
+            
             // First message
             if(!spoofingStartTime){
                 init_playback();
                 spoofingStartTime = performance.now();
-            }
-
-            // Not enough messages
-            if(relativeTimes.length == 0 || (relativeTimes[relativeTimes.length - 1] < 5000)){ // At least 5s
-                node.send(msg);
-                updateStatus();
-                return
             }
 
             // Reading spoofed messages
