@@ -25,6 +25,17 @@ module.exports = function(RED) {
         let inputSize = 0;
         let lastUpdateTime = Date.now();
         let pythonProcess = null;
+        let hasImportError = false; // Track if we have an import error to prevent restarting
+
+        // Function to reset import error state and retry
+        function resetImportError() {
+            if (hasImportError) {
+                hasImportError = false;
+                node.log("Resetting import error state, attempting to restart Python process");
+                node.status({ text: "Retrying..." });
+                start_parser();
+            }
+        }
 
         function cleanupProcess() {
             if (pythonProcess) {
@@ -45,6 +56,12 @@ module.exports = function(RED) {
         }
 
         function start_parser(){
+            // Don't start if we have an import error
+            if (hasImportError) {
+                node.warn("Skipping Python process start due to previous import error");
+                return null;
+            }
+            
             // Cleanup any existing process before starting a new one
             cleanupProcess();
             
@@ -73,7 +90,20 @@ module.exports = function(RED) {
 
             // Handle Python process errors
             pythonProcess.stderr.on('data', (data) => {
-                node.warn(`Python parser error: ${data.toString()}`);
+                const errorData = data.toString();
+                node.warn(`Python parser error: ${errorData}`);
+                
+                // Check if this is an import error for SbfParser
+                if (errorData.includes("ImportError: cannot import name 'SbfParser' from 'sbf_parser'")) {
+                    hasImportError = true;
+                    node.error("SbfParser import error detected. Please install sbfparser package: pip install sbfparser");
+                    // Update status to show error
+                    node.status({
+                        fill: "red",
+                        shape: "ring",
+                        text: "Error: Install pip sbfparser package"
+                    });
+                }
             });
 
             pythonProcess.on('error', (error) => {
@@ -81,13 +111,17 @@ module.exports = function(RED) {
             });
 
             pythonProcess.on('close', (code) => {
-                if (code !== 0) {
+                if (code !== 0 && !hasImportError) {
                     node.warn(`Python process exited with code ${code}, restarting it.`);
                     pythonProcess = start_parser();
-                }else{
+                } else if (hasImportError) {
+                    node.warn(`Python process exited with code ${code} due to import error. Not restarting.`);
+                } else {
                     node.warn(`Python process exited with code ${code}.`);
                 }
             });
+            
+            return pythonProcess;
         }
         start_parser();
 
@@ -96,10 +130,26 @@ module.exports = function(RED) {
                 return;
             }
 
+            // Check if user wants to reset import error
+            if (msg.reset_import_error === true) {
+                resetImportError();
+                return;
+            }
+
+            // Don't process if we have an import error
+            if (hasImportError) {
+                node.warn("Cannot process input due to SbfParser import error. Please install sbfparser package or send message with reset_import_error: true to retry.");
+                return;
+            }
+
             // Handle buffer input
             if (msg.payload && Buffer.isBuffer(msg.payload)) {
                 inputSize += msg.payload.length;
-                pythonProcess.stdin.write(msg.payload);
+                if (pythonProcess && pythonProcess.stdin) {
+                    pythonProcess.stdin.write(msg.payload);
+                } else {
+                    node.warn("Python process not available, cannot process buffer input");
+                }
             
             } else {
                 // Pass through messages without payload
@@ -153,6 +203,11 @@ module.exports = function(RED) {
 
         // -------------------------- Status Update Logic --------------------------
         function updateStatus() {
+            // Don't update status if we have an import error (status is already set)
+            if (hasImportError) {
+                return;
+            }
+            
             const now = Date.now();
             const deltaTSeconds = (now - lastUpdateTime) / 1000;
 

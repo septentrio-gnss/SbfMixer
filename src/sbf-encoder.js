@@ -15,6 +15,7 @@ module.exports = function(RED) {
         let encodedSize = 0;
         let lastUpdateTime = Date.now();
         let pythonProcess = null;
+        let hasImportError = false; // Track if we have an import error to prevent restarting
 
         function cleanupProcess() {
             if (pythonProcess) {
@@ -35,6 +36,12 @@ module.exports = function(RED) {
         }
 
         function start_encoder(){
+            // Don't start if we have an import error
+            if (hasImportError) {
+                node.warn("Skipping Python process start due to previous import error");
+                return null;
+            }
+            
             // Cleanup any existing process before starting a new one
             cleanupProcess();
             
@@ -70,22 +77,45 @@ module.exports = function(RED) {
             });
             
             pythonProcess.on('close', (code) => {
-                if (code !== 0) {
-                    node.warn(`Python process exited with code ${code}, restarting it.`);
-                    pythonProcess = start_encoder();
-                }else{
-                    node.warn(`Python process exited with code ${code}.`);
-                }
+                node.warn(`Python process exited with code ${code}, restarting it.`);
+                pythonProcess = start_encoder();
             });
 
             pythonProcess.stderr.on('data', (data) => {
-                node.warn(`Python encoder error: ${data.toString()}`);
+                const errorData = data.toString();
+                node.warn(`Python encoder error: ${errorData}`);
+                
+                // Check if this is an import error for encode function
+                if (errorData.includes("ImportError: cannot import name 'encode' from 'sbf_parser'")) {
+                    hasImportError = true;
+                    node.error("SbfParser encode import error detected. Please install sbfparser package: pip install sbfparser");
+                    // Update status to show error
+                    node.status({
+                        fill: "red",
+                        shape: "ring",
+                        text: "Error: Install pip sbfparser package"
+                    });
+                }
             });
+            
+            return pythonProcess;
         }
         start_encoder();
 
         node.on('input', function(msg) {
             if(!msg) {
+                return;
+            }
+
+            // Check if user wants to reset import error
+            if (msg.reset_import_error === true) {
+                resetImportError();
+                return;
+            }
+
+            // Don't process if we have an import error
+            if (hasImportError) {
+                node.warn("Cannot process input due to SbfParser encode import error. Please install sbfparser package or send message with reset_import_error: true to retry.");
                 return;
             }
 
@@ -122,6 +152,11 @@ module.exports = function(RED) {
 
         // -------------------------- Status Update Logic --------------------------
         function updateStatus() {
+            // Don't update status if we have an import error (status is already set)
+            if (hasImportError) {
+                return;
+            }
+            
             const now = Date.now();
             const deltaTSeconds = (now - lastUpdateTime) / 1000;
             if (deltaTSeconds < 0.1) {
@@ -150,6 +185,16 @@ module.exports = function(RED) {
             encodedSize = 0;
             totalSize = 0;
             lastUpdateTime = now;
+        }
+
+        // Function to reset import error state and retry
+        function resetImportError() {
+            if (hasImportError) {
+                hasImportError = false;
+                node.log("Resetting import error state, attempting to restart Python process");
+                node.status({ text: "Retrying..." });
+                start_encoder();
+            }
         }
 
         node.status({ text: "Initialized" });

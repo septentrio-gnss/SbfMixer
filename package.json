@@ -1,6 +1,6 @@
 {
-  "name": "@septentrio-gnss/node-red-sbf-mixer",
-  "version": "1.0.0",
+  "name": "@septentrio/node-red-sbf-mixer",
+  "version": "1.0.2",
   "description": "Mix sbf file, serial input and receiver output",
   "dependencies": {
     "node-red": "^4.0.9",
@@ -29,5 +29,21 @@
       "packet-replacer": "src/packet-replacer.js",
       "receiver-state": "src/receiver-state.js"
     }
-  }
+  },
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/septentrio-gnss/SbfMixer.git"
+  },
+  "author": "Louis-Max HARTER",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/septentrio-gnss/SbfMixer/issues"
+  },
+  "homepage": "https://github.com/septentrio-gnss/SbfMixer#readme"
 }
