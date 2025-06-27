@@ -20,6 +20,31 @@ module.exports = function(RED) {
             return true;
         }
 
+        function addMultipleRules(blockName, msg) {
+            if (blockName == undefined) {
+                node.warn("Set command requires 'blockName' in msg.");
+                return { success: false, count: 0 };
+            }
+
+            // List of system/control fields to ignore
+            const systemFields = ['command', 'blockName', 'type', 'block', 'payload', 'topic', '_msgid', '_event'];
+            
+            let rulesAdded = 0;
+            let hasErrors = false;
+
+            // Add all message attributes as rules (except system fields)
+            for (const fieldName in msg) {
+                if (!systemFields.includes(fieldName) && msg.hasOwnProperty(fieldName)) {
+                    if (addRule(blockName, fieldName, msg[fieldName])) {
+                        rulesAdded++;
+                    } else {
+                        hasErrors = true;
+                    }
+                }
+            }
+
+            return { success: !hasErrors && rulesAdded > 0, count: rulesAdded };
+        }
 
         // Initialize runtime rules from editor config
         node.initialRules.forEach(rule => {
@@ -29,7 +54,6 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             const blockName = msg.blockName;
-            const fieldName = msg.fieldName;
 
             // ---------------- Command Processing ----------------
             if (msg.command && typeof msg.command === 'string') {
@@ -37,41 +61,24 @@ module.exports = function(RED) {
                 try {
                     switch (command) {
                         case 'set':
-                            // Requires blockName, fieldName, msg.value
-                            if(addRule(blockName, fieldName, msg.value)){
-                                node.status({ fill: "blue", shape: "dot", text: `Rule set for ${blockName}/${fieldName}` });
-                            }else{
-                                node.status({ fill: "red", shape: "dot", text: `Failed to set rule for ${blockName}/${fieldName}` });
+                            // Add all message attributes as rules (except system fields)
+                            const result = addMultipleRules(blockName, msg);
+                            if (result.success) {
+                                node.status({ fill: "green", shape: "dot", text: `${result.count} rules set for ${blockName}` });
+                            } else {
+                                node.status({ fill: "red", shape: "dot", text: `Failed to set rules for ${blockName}` });
                             }
                             break;
 
                         case 'get':
                             // Send a clone to prevent accidental modification of internal state
-                            send([null, { payload: RED.util.cloneMessage(node.rules) }]);
+                            node.send([null, { payload: RED.util.cloneMessage(node.rules) }]);
                             node.status({ fill: "blue", shape: "dot", text: "Rules sent to output 2" });
                             break;
 
                         case 'clear':
                             node.rules = {};
                             node.status({ fill: "blue", shape: "dot", text: "Rules cleared" });
-                            break;
-
-                        case 'delete':
-                            // Requires blockName, fieldName
-                             if (blockName !== undefined && fieldName !== undefined) {
-                                if (node.rules[blockName] && node.rules[blockName][fieldName] !== undefined) {
-                                    delete node.rules[blockName][fieldName];
-                                    if (Object.keys(node.rules[blockName]).length === 0) {
-                                        delete node.rules[blockName];
-                                    }
-                                    node.status({ fill: "blue", shape: "dot", text: `Rule deleted for ${blockName}/${fieldName}` });
-                                }else{
-                                     node.warn(`Rule not found for delete: ${blockName}/${fieldName}`);
-                                     node.status({ fill: "red", shape: "dot", text: `Can't delete rule ${blockName}/${fieldName}` });
-                                }
-                            } else {
-                                node.warn("Delete command requires 'blockName' and 'fieldName' in msg.");
-                            }
                             break;
 
                         default:
@@ -83,17 +90,17 @@ module.exports = function(RED) {
 
             // ---------------- Packet Processing ----------------
             } else if (msg.type === 'SBF' && msg.block && blockName) {
-                try { 
-                    for (const fieldName in node.rules[blockName]) {
-                        if (msg.block.hasOwnProperty(fieldName)) {
+                try {
+                    if(node.rules[blockName]){
+                        for (const fieldName in node.rules[blockName]) {
                             msg.block[fieldName] = node.rules[blockName][fieldName];
-
-                            if(msg.payload != null){
-                                delete msg.payload;
-                            } // Payload is outdated
+                        }
+                        
+                        // Payload is outdated
+                        if(msg.payload != null){
+                            delete msg.payload;
                         }
                     }
-
                     node.send([msg, null]);
 
                 } catch (err) {

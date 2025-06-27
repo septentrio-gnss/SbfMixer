@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="sbf_mixer_white.png" alt="SBF Mixer Logo">
+  <img src="https://raw.githubusercontent.com/septentrio-gnss/SbfMixer/refs/heads/master/img/sbf_mixer_white.png" alt="SBF Mixer Logo">
 </div>
 
 # SbfMixer
@@ -64,8 +64,6 @@ Utils :
 - `on-change` : Send sbf block when they differ from the last one
 - `bottleneck` : Allow to choose from multiple Sbf input 
 
-You can find a longer description in `blocks_description.md`
-
 ## Tutorial
 ### Setup receiver
 
@@ -78,12 +76,12 @@ You can read SBF directly from mosaic by plugin it to your computer :
 6) Choose your messages to output, for example, Status, PVTGeod and GAL
 7) Confirm with Ok
 
-![Setup Septentrio receiver](examples/receiver_output_sbf.png)
+![Setup Septentrio receiver](img/receiver_output_sbf.png)
 
 You should now have SBF stream to your computer, you can check by using cat `/dev/ttyACM1` (could possibly be `/dev/ttyACM0`)
 You can now configure your Serial block by giving it a name, an input stream (`/dev/ttyACM1`) and the baudrate (`115200`).
 
-![Setup Serial block](examples/configure_serial.png)
+![Setup Serial block](img/configure_serial.png)
 
 ### Sbf Parser
 The incoming stream from the serial connection use buffer of bytes. To group and decode them, you should pass it to `sbf-parser`.
@@ -132,11 +130,11 @@ stty -F /dev/ttyUSB0 -echo
 
 The recommended setup uses a dedicated Raspberry Pi or computer to run Sbf-Mixer separately:
 
-![Setup Septentrio receiver 2 computers](examples/setup1.png)
+![Setup Septentrio receiver 2 computers](img/setup1.png)
 
 You may be able to use a setup like this one:
 
-![Setup Septentrio receiver 1 computers](examples/setup2.png)
+![Setup Septentrio receiver 1 computers](img/setup2.png)
 
 However, running QGC/MP on the same computer connected to the Mosaic will allow the ground control station to interact with the Septentrio receiver already used by the autopilot.
 You can try to separate them by using Docker with: `--device=/dev/ttyUSB0`
