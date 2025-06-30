@@ -94,7 +94,8 @@ module.exports = function(RED) {
                 node.warn(`Python parser error: ${errorData}`);
                 
                 // Check if this is an import error for SbfParser
-                if (errorData.includes("ImportError: cannot import name 'SbfParser' from 'sbf_parser'")) {
+                if (errorData.includes("ImportError: cannot import name 'SbfParser' from 'sbf_parser'")
+                || errorData.includes("ModuleNotFoundError: No module named 'sbf_parser'")) {
                     hasImportError = true;
                     node.error("SbfParser import error detected. Please install sbfparser package: pip install sbfparser");
                     // Update status to show error
