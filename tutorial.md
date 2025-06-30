@@ -1,150 +1,169 @@
-full_tutorial.md
+# Using SbfMixer - The Complete Guide
 
-npm install node-red-node-serialport
+In this tutorial, we will see how to use SbfMixer from A to Z:
 
-# Utiliser SbfMixer - Le guide complet
+1) Install SbfParser
+2) Install SbfMixer
+3) Connect to the Septentrio receiver
+4) Modify SBF blocks
+5) Connect SbfMixer to another output (Autopilot, base station)
+6) Example: CRPA
+7) NPM CheatSheet
 
-Dans ce tutoriel, nous allons voir comment utiliser SbfMixer de A à Z :
+# Tutorial
+## Install SbfParser
 
-1) Configurer le recepteur Septentrio
-2) Installer SbfMixer
-3) Connecter SbfMixer au recepteur GPS
-4) Décoder les blocks SBF 
-5) Modifier des blocks SBF
-6) Connecter SbfMixer a une autre sortie (Autopilot, base station)
-7) Example : Spoofer
-8) Example : CRPA
+SbfMixer uses [SbfParser](https://pypi.org/project/sbf-parser/) to decode and encode SBF streams.
+To install it, you can use pip: `pip install sbf-parser`
+If you are using a Python virtual environment, remember to activate your environment before running node-red.
 
-# Tutoriel
-## Installer SbfParser
-
-SbfMixer utilise [SbfParser](https://pypi.org/project/sbf-parser/) pour décoder et encoder les flux sbf.
-Pour l'installer, vous pouvez utiliser pip : `pip install sbf-parser`
-Si jamais vous utilisez un environnement virtuel python, pensez à activer votre environnement avant d'éxécuter node-red.
-
-## Installer SbfMixer
+## Install SbfMixer
 ### With Node-RED palette
 
-Une fois node-red installé, vous pouvez l'éxécuter avec `node-red` puis vous rendre sur [http://127.0.0.1:1880](http://127.0.0.1:1880).
-Vous pouvez maintenant instller SbfMixer en allant sur :
+Once node-red is installed, you can run it with `node-red` then navigate to [http://127.0.0.1:1880](http://127.0.0.1:1880).
+You can now install SbfMixer by going to:
 Menu > Manage Palette > Palette > Install > Search for "mixer" > Install `@septentrio/node-red-sbf-mixer`
 
-Vous devez aussi installer `node-red-node-serialport`
+You must also install `node-red-node-serialport`
 
 ![Install SbfMixer using Node-RED palette](img/node-red-palette.png)
 
 
 ### With command line
 
-Vous pouvez aussi installer les dépendances avec les commandes suivantes :
-Avec `npm` :
+You can also install the dependencies with the following commands:
+With `npm`:
 ```bash
 cd ~/.node-red
 npm install @septentrio/node-red-sbf-mixer
 npm install node-red-node-serialport
 ```
 
-Si vous voulez installer directement avec le code source pour tester vos modifications, vous pouvez utiliser :
+If you want to install directly with the source code to test your modifications, you can use:
 ```bash
 cd ~
 git clone https://github.com/septentrio-gnss/SbfMixer
 cd ~/.node-red
 npm install ~/SbfMixer
 ```
-Vous devez relance node-red à chaque modifications apporté au code source de SbfMixer pour que celui-ci soit pris en compte.
+You must restart node-red after each modification made to the SbfMixer source code for it to be taken into account.
 
 
-## Se connecter au receiver Septentrio
+## Connect to the Septentrio receiver
 
-Commencez par brancher votre receiver Septentrio à votre ordinateur en utilisant uyn cable usb.
-Vous devriez pouvoir accèder à l'interface de votre GPS via l'url suivante : [https://192.168.3.1/](https://192.168.3.1/)
+Start by connecting your Septentrio receiver to your computer using a USB cable.
+You should be able to access your GPS interface via the following URL: [https://192.168.3.1/](https://192.168.3.1/)
 
-Maintenant, importer le flow `read_stream.json`en cliquant sur Menu > Import (Ctril + i).
+Now, import the flow `read_stream.json` by clicking on Menu > Import (Ctrl + i).
 
 ![Read stream flow](examples/read_stream.png)
 
-Ce flow ce compose en deux partie, la partie supérieur permet de lire les informations transmises par le récepteur et ce compose comme suit :
-- Lecture des informations sur le connection serie ACM0
-    - Vous devez renseigner le nom de votre connexion serial ainsi qu'un baud rate of 115200.
-    - Input need to be send as soon has they decoded. Hence, the "SPlit input into fixed length of ' '" (empty = 1).
-    - On limited hardware, you can try after a timeout of 10ms or with bigger chunk, but this can add delay and disrupt connection if you are beetwen two device communicating together (Autopilot <-> SbfMixer <-> Septentrio receiver)
+This flow consists of two parts. The upper part allows reading information transmitted by the receiver and is composed as follows:
+- Reading information on the ACM0 serial connection
+    - You must specify the name of your serial connection as well as a baud rate of 115200.
+    - Input needs to be sent as soon as they are decoded. Hence, the "Split input into fixed length of ' '" (empty = 1).
+    - On limited hardware, you can try after a timeout of 10ms or with bigger chunks, but this can add delay or disrupt connection if you are between two devices communicating together through SbfMixer. (Autopilot <-> SbfMixer <-> Septentrio receiver)
 
-- Les blocks vont ensuite être décodés en utilisant SbfParser
-    - Ce block permet de visualiser la bande passante en entrée et la bande passante des blocks sbf décodées. Un écart entre les deux signifiera que certainnes données (NMEA, RTCM) ne sont pas décodés mais leur binaire sera tout de même transmis.
-    - Vous pouvez double cliquer sur le parser pour lui donner un nom, cela permet de savoir l'origine du message quand plusieurs parser sont combinés ensembles (cf: spoofer or bottleneck)
+- The blocks will then be decoded using SbfParser
+    - This block allows you to visualize the input bandwidth and the bandwidth of decoded SBF blocks. A gap between the two will mean that certain data (NMEA, RTCM) is not decoded but their binary will still be transmitted.
+    - You can double-click on the parser to give it a name, this allows you to know the origin of the message when several parsers are combined together (cf: spoofer or bottleneck)
 
-- Les informations sont ensuites affichés
-    - ReceiversState affichera la présence de jamming ou de spoofing, ainsi que la présence d'une connection à un recepteur SBF
-    - Le premier debug affichera tout les messages, vous pouvez le désactiver en cliquant à sa droite si cela fait d'information pour la fenetre de debug. Il faudra surement attendre un peu que l'affichage de tout les message se fasses avant que cela ne prenne effet
-    - La fonction "filter message" permet de ne transmettre que certains messages, pratique pour débugger
+- The information is then displayed
+    - ReceiverState will display the presence of jamming or spoofing, as well as the presence of a connection to an SBF receiver
+    - The first debug will display all messages, you can disable it by clicking to its right if there is too much information for the debug window. You will probably need to wait a bit for the display of all messages to take effect before this happens
+    - The "filter message" function allows you to transmit only certain messages, useful for debugging
 
-- Puis ré-encodée
-    - Si jamais vous avez modifié des informations dans un bloc sbf, nous devons le ré-encoder pour le mettre à jour
-    - Par défaut, les blocks non-modifiés sont directement transmis en utilisant la propriété payload des block décodés. Si jamais vous modifiez un block, vous devez donc supprimer le champ payload du message.
-    - Le bloc affichera la bande passante des messages tranmis et ré-encodés.
+- Then re-encoded
+    - If you have modified information in an SBF block, we need to re-encode it to update it
+    - By default, unmodified blocks are directly transmitted using the payload property of decoded blocks. If you modify a block, you must therefore delete the payload field from the message.
+    - The block will display the bandwidth of transmitted and re-encoded messages.
 
-- Et transmis en sortie : Les informations peuvent ensuite être trnamises à un autopilot (Ardupilot, PX4, etc ...) ou à n'importe quelle autre outils
+- And transmitted as output: The information can then be transmitted to an autopilot (Ardupilot, PX4, etc...) or to any other tool
 
-## Modifier des blocks SBF
+## Modify SBF blocks
 
-Prenons l'exemple d'un simulateur d'interferance qui va modifier les paquets transmis par le recepteur Septentrio pour faire croire qu'il y a une présence de jamming et/ou de spoofing.
+Let's take the example of an interference simulator that will modify packets transmitted by the Septentrio receiver to make it believe there is a presence of jamming and/or spoofing.
 
 ![Resilience simulator](examples/resilience_emulator.png)
 
-Vous pouvez modifier les blocks sbf de 2 manière différentes.
+You can modify SBF blocks in 2 different ways.
 ### Spoofer
-Ce block va prendre les blocks sbf d'un parser pour les substitué avec ceux d'un autre parser.
-Pour ce faire, vous devez préciser le nom du parser qui donnera au parser les valeurs des messages à substituer, ici nous avons un extrait d'enregistrement réaliser en Norvège avec du jamming et spoofing testé en condition réel.
+This block will take SBF blocks from one parser to substitute them with those from another parser.
+To do this, you must specify the name of the parser that will give the parser the values of messages to substitute, here we have an extract from a recording made in Norway with jamming and spoofing tested in real conditions.
 
-Le spoofer commencera à modifier les pacquets dès le premier block venant d'un autre parser reçu.
-Seul les blocks sbf seront modifiés, la valeur d'un block prendra la valeur la plus récente du block de même type disponible dans l'enregistrement.
+The spoofer will start modifying packets as soon as the first block from another parser is received.
+Only SBF blocks will be modified, the value of a block will take the most recent value of the same type block available in the recording.
 
 ### Packet replacer
+This block allows you to modify block values manually. To do this, you simply need to send a message to this block containing: `{command:"set", blockName:"MyBlockName"}`, for example `blockName:"ReceiverStatus"`. All other fields will be considered as rules that will be applied to blocks matching the blockName.
+
+You can also use a `function` block to do custom operations, but this block will allow you to easily change values by sending it messages without the need to re-deploy your flow.
+
+If you notice that the encoder can no longer encode or you have warnings like:
+```
+[warn] [sbf-encoder:b66abd98f1a8cc89] Python encoder error",
+  File "sbf_parser/encoder.pyx", line 154, in sbf_parser.encoder.encode
+  File "sbf_parser/encoder.pyx", line 118, in sbf_parser.encoder.encode
+  File "sbf_parser/encoder.pyx", line 213, in sbf_parser.encoder._handle_complex_block
+  File "sbf_parser/encoder.pyx", line 204, in sbf_parser.encoder._serialize_block
+struct.error: required argument is not an integer
+```
+This means you have probably modified a message with a value of a different type than the original one, so the block cannot be re-encoded.
+For this, make sure that the type in your inject node is correct, most often, an integer or a float.
 
 
-## Connecter SbfMixer a une autre sortie (Autopilot, base station)
-## Example : Spoofer
-## Example : CRPA
+## Connect SbfMixer to another output (Autopilot, base station)
 
-## Configurer manuellement un recepteur Septentrio
-Notre première étape est de connecter notre récepteur Septentrio à notre ordinateur qui utilisera SbfMixer. Pour cela, utilisez un cable usb C (ou usb-micro selon le cas) que vous allez brancher à votre ordianteur.
-Pour vérifier que le récepteur GPS est bien détecté, rendez-vous à l'adresse https://192.168.3.1/, vous devriez avoir le dashboard suivant :
+You can use SbfMixer as middleware between your receiver and another application (Autopilot, Base station, software, etc...).
 
-Image dashbaord
+![Setup Septentrio receiver 2 computers](img/setup1.png)
 
-Maintenant, vous devez configurer votre récepteur pour qu'il output des informations. Pour cela :
-1) Go to https://192.168.3.1/ to enable the output of some SBF messages
-2) Go to NMEA/SBF Out
-3) Click New SBF Stream
-4) Select USB Port
-5) Select USB1
-6) Choose your messages to output, for example, Status, PVTGeod and GAL
-7) Confirm with Ok
+This setup will allow you to directly analyze communications and be able to modify them on the fly.
+To do this, if you previously used a [JST](https://customersupport.septentrio.com/s/article/How-to-integrate-latest-Septentrio-receivers-with-PX4-autopilot-using-Pixhawk-standard-boards) cable, you will need to use a [TTL-234X-5V](https://www.google.com/search?client=firefox-b-d&sca_esv=000223f181a12c46&q=TTL-234X-5V&udm=2&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIegMOm3ItDJ-cT-Q5w0bTw0aWDUsQli3okTHBRSgORXy6CJUQc5sVHi-huEHnZn--lXeI5cOKb8xaiaZN98RZ8FshAoaS4PtnoCKohGCXSsG3bp_VbIK8PnkxyWVWwWqyBopz3rD3o3H-MSgFM3SfENhHrzq9&sa=X&ved=2ahUKEwjUhJiq2pGOAxUMRaQEHZTnJdUQtKgLKAF6BAgSEAE&biw=1969&bih=967&dpr=2) cable allowing you to emulate a serial connection on your computer.
 
-![Setup Septentrio receiver](img/receiver_output_sbf.png)
+If you previously used a USB cable to connect your GPS receiver to a computer, you will then need two. Indeed, the Mosaic-H receiver emulates a serial connection via USB when you connect it to your computer, which explains why you can read a data stream on the serial connection `/dev/ttyACM0`. You must then transform the stream from SbfMixer into a data stream on your computer's serial connection, then decode it on your second computer, hence the two TTL cables.
 
-Vous devrier maintenant avoir une sortie USB1 comme suit au niveau de Data Stream
+To do this, you must use the serial out node block.
+
+## Example: CRPA
+
+SbfMixer also allows you to combine several streams from different Septentrio receivers transparently for your applications.
+For this, you can use the Bottleneck block which will let the parser stream with the highest priority pass through.
+
+![CRPA Configuration](examples/CRPA.png)
+
+For this, you can use a block that will handle updating the priority based on the messages it receives:
+```js
+if (msg.blockName == "RFStatus") {
+    const flags = msg.block["Flags"]
+    let priority = 10;
+
+    if (flags & 0b01) { // Jamming detected
+        priority -= 1;
+    }
+
+    if (flags & 0b10) { // Spoofing detected
+        priority -= 1;
+    }
+
+    const msg_priority = {
+        "_parsed_by": msg._parsed_by,
+        "command": "set",
+        "priority": priority
+    }
+
+    return [[msg_priority, msg]];
+}else{
+    return msg;
+}
+```
+
+## NPM CheatSheet
+
+- `npm list`: List installed packages - You can do it in your home or in `~/.node-red` folder.
+- `npm install my_folder_with_package_source`
+- `npm install @septentrio/node-red-sbf-mixer`
+- `npm uninstall <package_name>`
+- `npm publish --access public`: Update the package version in `package.json` before, only needed by Septentrio maintainer
 
 
-Maintenant que votre récepteur envoie des données via USB, vous pouvez vérifier sur votre ordinateur que vous les recevez bien.
-Pour ce faire, vous pouvez utiliser sous linux cat name_of_your_serial_connection (le plus souvant /dev/ttyACM0). Vous devrier obtenir un affichage comme suit avec des $@ signifiants le début de blocks SBF.
-
-Image
-
-## NPM 
-### List npm package
-
-npm list
-
-You can do it in your home (~) or in ~/.node-red folder.
-
-### Install package
-
-Go to the ~/.node-red and then :
-
-npm install my_folder_with_package_source
-npm install @septentrio/node-red-sbf-mixer
-
-### Remove npm package
-
-npm uninstall <package_name>

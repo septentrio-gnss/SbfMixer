@@ -10,33 +10,23 @@ A node-red plugin to parse, show, edit, and emulate Septentrio Receiver !
 ### Installation
 
 You need to install [Sbf Parser](https://github.com/septentrio-gnss/SbfParser) to decode Sbf (Septentrio Binary Format) from the receiver.
-
-Then, install Sbf mixer with these commands :
 ```bash
-# Setup environment
-cd ~
-git clone https://github.com/septentrio-gnss/SbfMixer
-cd SbfMixer
-
-
-# Setup python and SbfParser
-python3 -m venv venv
-source venv/bin/activate
-pip install sbf-parser
-
-
-# Install packages
-cd ~/.node-red
-npm install ~/SbfMixer
-npm install node-red-node-serialport
-
-
-# Run node-red if you have installed using your package manager
-node-red
-# Or if you have installed using `npm install node-red`
-$(npm get prefix)/bin/node-red
+pip install sbf-parser 
 ```
 
+You can now install SbfMixer by going to:
+Menu > Manage Palette > Palette > Install > Search for "mixer" > Install `@septentrio/node-red-sbf-mixer`
+You must also install `node-red-node-serialport`
+
+Or directly with npm :
+```bash
+cd ~/.node-red
+npm install @septentrio/node-red-sbf-mixer
+npm install node-red-node-serialport
+```
+
+Et voila !
+If you want a steps-by-steps tutorial on SbfMixer, you can check `tutorial.md`
 
 ## Examples
 
