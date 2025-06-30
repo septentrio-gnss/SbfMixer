@@ -1,6 +1,6 @@
 {
   "name": "@septentrio/node-red-sbf-mixer",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Mix sbf file, serial input and receiver output",
   "dependencies": {
     "node-red": "^4.0.9",
