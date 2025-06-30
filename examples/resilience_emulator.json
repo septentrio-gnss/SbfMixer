@@ -1,6 +1,6 @@
 [
     {
-        "id": "eaaf8be7e967820e",
+        "id": "6ecc9481bc28afa7",
         "type": "tab",
         "label": "Flow 8",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "06907f452cbe61e2",
+        "id": "c6416f754b15613d",
         "type": "serial out",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "serial": "0d00af4871687cdd",
         "x": 1500,
@@ -18,54 +18,54 @@
         "wires": []
     },
     {
-        "id": "8f9f2ca8223aab2a",
+        "id": "8102e910b1a13db0",
         "type": "sbf-parser",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "x": 500,
         "y": 320,
         "wires": [
             [
-                "29266ab8ccc00db4",
-                "3510c2531450f722"
+                "fb7607048d10b18a",
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "5a052a3df07aed29",
+        "id": "f7c1bc6f20715621",
         "type": "sbf-encoder",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "x": 1250,
         "y": 320,
         "wires": [
             [
-                "06907f452cbe61e2"
+                "c6416f754b15613d"
             ]
         ]
     },
     {
-        "id": "29266ab8ccc00db4",
+        "id": "fb7607048d10b18a",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "x": 720,
         "y": 260,
         "wires": []
     },
     {
-        "id": "664af0e04df62b65",
+        "id": "dabbb2cc55d971a6",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "x": 1000,
         "y": 260,
         "wires": []
     },
     {
-        "id": "db99b21b17606316",
+        "id": "eda4a0dce454d860",
         "type": "debug",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Computer",
         "active": false,
         "tosidebar": true,
@@ -80,24 +80,24 @@
         "wires": []
     },
     {
-        "id": "2eab3a605a459de9",
+        "id": "a42cf8048ab8b679",
         "type": "serial in",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "serial": "0d00af4871687cdd",
         "x": 220,
         "y": 700,
         "wires": [
             [
-                "ecd643125c0382d9",
-                "5fcdc45d8ed1288d"
+                "2f6448e9a86c9427",
+                "0466b3955bf856ca"
             ]
         ]
     },
     {
-        "id": "74e776824320efbf",
+        "id": "1c6f8c9f9b35caf9",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "props": [
             {
@@ -122,9 +122,9 @@
         ]
     },
     {
-        "id": "ecd643125c0382d9",
+        "id": "2f6448e9a86c9427",
         "type": "serial out",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "serial": "34ae64e833f101aa",
         "x": 460,
@@ -132,9 +132,9 @@
         "wires": []
     },
     {
-        "id": "3bf01a73f5fc4bbe",
+        "id": "d465f09cea0f650a",
         "type": "debug",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Mosaic",
         "active": false,
         "tosidebar": true,
@@ -149,9 +149,9 @@
         "wires": []
     },
     {
-        "id": "5fcdc45d8ed1288d",
+        "id": "0466b3955bf856ca",
         "type": "join",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "mode": "custom",
         "build": "string",
@@ -173,14 +173,14 @@
         "y": 760,
         "wires": [
             [
-                "db99b21b17606316"
+                "eda4a0dce454d860"
             ]
         ]
     },
     {
-        "id": "2915d40ab75eef02",
+        "id": "95f21e674c9803c0",
         "type": "join",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "mode": "custom",
         "build": "string",
@@ -202,29 +202,29 @@
         "y": 160,
         "wires": [
             [
-                "3bf01a73f5fc4bbe"
+                "d465f09cea0f650a"
             ]
         ]
     },
     {
-        "id": "b54dc0ceb6e14f12",
+        "id": "0fcd85b30a5bc9bd",
         "type": "serial in",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "serial": "34ae64e833f101aa",
         "x": 270,
         "y": 320,
         "wires": [
             [
-                "2915d40ab75eef02",
-                "8f9f2ca8223aab2a"
+                "95f21e674c9803c0",
+                "8102e910b1a13db0"
             ]
         ]
     },
     {
-        "id": "3510c2531450f722",
+        "id": "01cabbe78f0ea40f",
         "type": "spoofer",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "skipAfterMs": 5000,
         "skipDurationMs": "10",
@@ -235,29 +235,29 @@
         "y": 320,
         "wires": [
             [
-                "664af0e04df62b65",
-                "0598734b6441cf34"
+                "dabbb2cc55d971a6",
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "560cbe97ed083c1e",
+        "id": "cbb1b51ae7850940",
         "type": "sbf-parser",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "norway_file",
         "parser_name": "norway_file",
         "x": 490,
         "y": 400,
         "wires": [
             [
-                "3510c2531450f722"
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "76e2463888726377",
+        "id": "4d2422f334e66cae",
         "type": "file in",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Norway Sbf",
         "filename": "/home/lmx/a_septentrio/flow/selection.sbf",
         "filenameType": "str",
@@ -270,14 +270,14 @@
         "y": 400,
         "wires": [
             [
-                "560cbe97ed083c1e"
+                "cbb1b51ae7850940"
             ]
         ]
     },
     {
-        "id": "42381a5a3832b3d2",
+        "id": "241e275e93263045",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "props": [
             {
@@ -295,14 +295,14 @@
         "y": 400,
         "wires": [
             [
-                "76e2463888726377"
+                "4d2422f334e66cae"
             ]
         ]
     },
     {
-        "id": "682acbf33946e394",
+        "id": "a43c12c0500530fa",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "reset",
         "props": [
             {
@@ -320,14 +320,14 @@
         "y": 580,
         "wires": [
             [
-                "3510c2531450f722"
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "0e284f40d01e9b52",
+        "id": "066b1cf5f62d291d",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "restart",
         "props": [
             {
@@ -345,14 +345,14 @@
         "y": 540,
         "wires": [
             [
-                "3510c2531450f722"
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "31579378dd0d71c3",
+        "id": "599bacd1a75c19af",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "+1 min",
         "props": [
             {
@@ -375,14 +375,14 @@
         "y": 460,
         "wires": [
             [
-                "3510c2531450f722"
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "cf303ee0498924ba",
+        "id": "a52f50bde840a77e",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "-1 min",
         "props": [
             {
@@ -405,14 +405,14 @@
         "y": 500,
         "wires": [
             [
-                "3510c2531450f722"
+                "01cabbe78f0ea40f"
             ]
         ]
     },
     {
-        "id": "84e54f819f0363e4",
+        "id": "3520f64085deb79c",
         "type": "debug",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Mosaic",
         "active": true,
         "tosidebar": true,
@@ -427,9 +427,9 @@
         "wires": []
     },
     {
-        "id": "a359ea5f8184f21d",
+        "id": "037e115d3a3446b3",
         "type": "switch",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "property": "blockName",
         "propertyType": "msg",
@@ -458,15 +458,15 @@
         "wires": [
             [],
             [
-                "84e54f819f0363e4"
+                "3520f64085deb79c"
             ],
             []
         ]
     },
     {
-        "id": "a552c475700fe035",
+        "id": "8216066388d77cc0",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Set status 0b11",
         "props": [
             {
@@ -499,14 +499,14 @@
         "y": 460,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "e1151fc199ead232",
+        "id": "7a2ca945cc04ab23",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Set status 0b00",
         "props": [
             {
@@ -539,14 +539,14 @@
         "y": 580,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "a327a1199569a5ef",
+        "id": "af0f3456cffeb829",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Clear",
         "props": [
             {
@@ -564,14 +564,14 @@
         "y": 700,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "a979bb83cb7885f6",
+        "id": "166dffb384b2aa6b",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Get",
         "props": [
             {
@@ -589,14 +589,14 @@
         "y": 740,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "373ab44575bafbb5",
+        "id": "9a0be361c1fbff24",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Del status rule",
         "props": [
             {
@@ -624,14 +624,14 @@
         "y": 660,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "9b60924eb037faf8",
+        "id": "b71298e9004362c2",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Set status 0b10",
         "props": [
             {
@@ -664,14 +664,14 @@
         "y": 500,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "c7b8f39f23e5d6d9",
+        "id": "e7f31a3773c0a877",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Set status 0b01",
         "props": [
             {
@@ -704,40 +704,40 @@
         "y": 540,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
     {
-        "id": "0598734b6441cf34",
+        "id": "a5c8ac6caae2c175",
         "type": "packet-replacer",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "initialRules": [],
         "x": 1000,
         "y": 320,
         "wires": [
             [
-                "5a052a3df07aed29",
-                "871fd15b23d5f10e",
-                "a359ea5f8184f21d"
+                "f7c1bc6f20715621",
+                "38e1d50094bbdf58",
+                "037e115d3a3446b3"
             ],
             []
         ]
     },
     {
-        "id": "871fd15b23d5f10e",
+        "id": "38e1d50094bbdf58",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "",
         "x": 1260,
         "y": 260,
         "wires": []
     },
     {
-        "id": "f213214ead2d6cfa",
+        "id": "16cb2e94e43b4cb6",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "6ecc9481bc28afa7",
         "name": "Set N=0",
         "props": [
             {
@@ -770,7 +770,7 @@
         "y": 620,
         "wires": [
             [
-                "0598734b6441cf34"
+                "a5c8ac6caae2c175"
             ]
         ]
     },
