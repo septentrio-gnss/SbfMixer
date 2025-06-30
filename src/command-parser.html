@@ -22,23 +22,31 @@
 </script>
 
 <script type="text/html" data-help-name="command-parser">
-    <p>A node that parses the first word (command) from an incoming buffer.</p>
+    <p>A node that parses and validates Septentrio commands from incoming buffers.</p>
     <h3>Inputs</h3>
     <dl class="message-properties">
         <dt>payload
             <span class="property-type">buffer</span>
         </dt>
-        <dd> The buffer containing the command to parse.</dd>
+        <dd>The buffer containing the command to parse and validate.</dd>
     </dl>
     <h3>Outputs</h3>
     <dl class="message-properties">
          <dt>payload <span class="property-type">buffer</span></dt>
-         <dd>The original incoming buffer.</dd>
+         <dd>The original incoming buffer (or modified buffer if SSSSSSSSSS prefix was detected and stripped).</dd>
          <dt>type <span class="property-type">string</span></dt>
-         <dd>Set to "receiver_command".</dd>
+         <dd>Set to "receiver_command" for valid commands, or "unknown" if no valid command found.</dd>
          <dt>command_info <span class="property-type">string</span></dt>
-         <dd>The first word (longest consecutive chain of letters) found in the payload buffer.</dd>
+         <dd>The validated command name (converted to short form if a long command was received).</dd>
     </dl>
     <h3>Details</h3>
-    <p>This node expects a Buffer as input. It converts the buffer to a string, extracts the first sequence of consecutive letters, and sends an object containing the original buffer, the type "receiver_command", and the extracted command string.</p>
+    <p>This node expects a Buffer as input. It converts the buffer to a string, extracts the first word (command), and validates it against a list of known Septentrio commands.</p>
+    <p><strong>Command Validation:</strong> The node checks if the first word matches either:
+        <ul>
+            <li>A short command name (e.g., "sso", "pvt")</li>
+            <li>A long command name (e.g., "setCOMSettings", "getPVTGeodetic") - these are converted to their short equivalents</li>
+        </ul>
+    </p>
+    <p><strong>Special Handling:</strong> If the payload starts with "SSSSSSSSSS", this prefix is sent as a separate command message, and the remainder is processed as a separate command.</p>
+    <p>If no valid command is found, the message is passed through with type "unknown" and a warning is logged.</p>
 </script>

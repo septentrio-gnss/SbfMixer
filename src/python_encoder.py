@@ -32,7 +32,7 @@ while True:
                         buffer = buffer[i+10:]
                         i = 0
 
-                        status, binary = encode(block, payload_priority=-4) # No payload
+                        status, binary = encode(block, payload_priority=0) # No payload
 
                         encoded_block = "".join([chr(byte) for byte in binary]) + "##########"
                         print(encoded_block, end="", flush=True)

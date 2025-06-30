@@ -43,52 +43,54 @@
 </script>
 
 <script type="text/html" data-help-name="player">
-    <p>Buffers incoming SBF messages with timestamps and plays them back sequentially based on their relative time.</p>
+    <p>Buffers incoming SBF messages and plays them back sequentially based on their GPS time (TOW/WNc).</p>
 
     <h3>Inputs</h3>
     <dl class="message-properties">
-        <dt>payload <span class="property-type">buffer</span></dt>
-        <dd>An SBF message block. The node expects an associated <code>msg.timestamp</code> property (in milliseconds) for buffering.</dd>
-        <dt>payload <span class="property-type">string</span></dt>
-        <dd>A command to control the player:
+        <dt>msg with SBF block <span class="property-type">object</span></dt>
+        <dd>An SBF message with <code>msg.type === 'SBF'</code> and <code>msg.block</code> containing:
+            <ul>
+                <li><code>msg.block.TOW</code> (number): GPS Time of Week in milliseconds</li>
+                <li><code>msg.block.WNc</code> (number): GPS Week Number</li>
+            </ul>
+            These messages are buffered for playback.
+        </dd>
+        <dt>command <span class="property-type">string</span></dt>
+        <dd>A command string to control the player:
             <ul>
                 <li><code>clear</code>: Stops playback (if active) and clears the internal message buffer.</li>
-                <li><code>start</code>: Starts playback from the buffered messages, sending them out based on the time difference from the first message.</li>
+                <li><code>start</code>: Starts playback from the buffered messages, sending them out based on GPS time differences.</li>
                 <li><code>stop</code>: Stops the current playback.</li>
             </ul>
         </dd>
-        <dt>timestamp <span class="property-type">number</span></dt>
-        <dd>The absolute timestamp (e.g., milliseconds since epoch) associated with the SBF <code>msg.payload</code>. Required for buffering.</dd>
     </dl>
 
     <h3>Outputs</h3>
     <dl class="message-properties">
-        <dt>payload <span class="property-type">buffer</span></dt>
-        <dd>The SBF message block being played back.</dd>
-        <dt>originalTimestamp <span class="property-type">number</span></dt>
-        <dd>The original timestamp (in milliseconds) that was associated with the message when it was buffered.</dd>
+        <dt>SBF message <span class="property-type">object</span></dt>
+        <dd>The SBF message being played back. If "Adjust Time to Actual" is enabled, the GPS time fields (WNc/TOW) are updated to current GPS time, and the original binary payload is removed.</dd>
     </dl>
 
     <h3>Details</h3>
-    <p>This node collects SBF messages, storing them along with their timestamps. Messages are stored in an internal buffer.</p>
+    <p>This node collects SBF messages, converting their GPS time coordinates (WNc/TOW) to absolute timestamps for internal sorting and timing calculations.</p>
     <p>When a <code>start</code> command is received:
         <ol>
-            <li>The buffer is sorted by timestamp (earliest first).</li>
+            <li>The buffer is sorted by GPS timestamp (earliest first).</li>
             <li>Playback begins immediately with the first message.</li>
-            <li>Subsequent messages are sent out after a delay calculated from the time difference between their timestamp and the first message's timestamp.</li>
-            <li>The node status indicates playback progress.</li>
+            <li>Subsequent messages are sent out after delays calculated from GPS time differences.</li>
+            <li>The node status indicates playback progress with estimated time remaining.</li>
         </ol>
     </p>
     <p>The <code>stop</code> command halts playback, and <code>clear</code> stops playback and empties the buffer.</p>
-    <p>The <code>Adjust Time to Actual</code> option is not yet implemented.</p>
+    <p><strong>Time Filtering:</strong> Messages with GPS timestamps older than 30 years are automatically rejected as invalid.</p>
 
     <h3>Configuration</h3>
     <dl class="message-properties">
         <dt>Adjust Time to Actual</dt>
-        <dd>If checked, the node should (in the future) adjust timestamps. Currently not implemented.</dd>
+        <dd>If checked, during playback the node updates the GPS time fields (WNc/TOW) to reflect the current GPS time, effectively "live-streaming" the historical data. The original binary payload is removed when this option is enabled.</dd>
         <dt>Max Wait Threshold (ms)</dt>
         <dd>Specifies the maximum calculated delay (in milliseconds) between messages before the player considers it a large gap and fast-forwards. Default is 5000ms.</dd>
         <dt>Fallback Wait (ms)</dt>
-        <dd>When the delay between messages exceeds the 'Max Wait Threshold', the player will only wait for this duration (in milliseconds) instead of the calculated delay, effectively skipping ahead. The playback start time is adjusted to maintain relative timing for subsequent messages. Default is 500ms.</dd>
+        <dd>When the delay between messages exceeds the 'Max Wait Threshold', the player will only wait for this duration (in milliseconds) instead of the calculated delay, effectively fast-forwarding. The playback timeline is adjusted to maintain relative timing for subsequent messages. Default is 500ms.</dd>
     </dl>
 </script>

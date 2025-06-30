@@ -114,15 +114,15 @@
         <ol id="node-input-rule-container" style="list-style-type: none; margin: 0;"></ol>
     </div>
     <div class="form-tips">
-        <p><b>Note:</b> This node modifies fields within incoming message payloads based on <code>blockId</code> and <code>fieldName</code>.</p>
-        <p>It assumes <code>msg.payload</code> is an object containing a <code>blockId</code> property and other properties representing fields.</p>
+        <p><b>Note:</b> This node modifies fields within incoming SBF message blocks based on <code>blockName</code> and <code>fieldName</code> rules.</p>
+        <p>It processes <code>msg.type === 'SBF'</code> messages with <code>msg.block</code> objects and <code>msg.blockName</code> properties.</p>
         <p>Use input messages with <code>msg.command</code> set to configure rules at runtime:</p>
         <ul>
-            <li><code>set</code>: Requires <code>msg.blockId</code>, <code>msg.fieldName</code>, <code>msg.value</code>. Adds/updates a rule.</li>
-            <li><code>get</code>: Sends current rules map <code>{ blockId: { fieldName: value } }</code> to the second output.</li>
+            <li><code>set</code>: Requires <code>msg.blockName</code>. Creates rules from all message properties (excluding system fields like 'command', 'type', etc.). Each property becomes a fieldName/value rule pair.</li>
+            <li><code>get</code>: Sends current rules map <code>{ blockName: { fieldName: value } }</code> to the second output.</li>
             <li><code>clear</code>: Removes all rules.</li>
-            <li><code>delete</code>: Requires <code>msg.blockId</code>, <code>msg.fieldName</code>. Removes a specific rule.</li>
         </ul>
-         <p>The second output provides debug information (e.g., result of 'get' command).</p>
+        <p>The second output provides debug information (e.g., result of 'get' command).</p>
+        <p><strong>Processing:</strong> When an SBF message is processed, if there are rules for its <code>blockName</code>, the corresponding fields in <code>msg.block</code> are updated, and any existing <code>msg.payload</code> is removed since it becomes outdated.</p>
     </div>
 </script>

@@ -28,13 +28,14 @@
 </script>
 
 <script type="text/x-red" data-help-name="send-sbf-command">
-    <p>Sends a Septentrio command.</p>
+    <p>Sends a predefined Septentrio command reply when triggered by command messages.</p>
     <p>When this node receives a message with <code>msg.type</code> set to <code>"septentrio_command"</code>, it sends a reply message.</p>
     <p>The reply message has:</p>
     <ul>
         <li><code>msg.type</code> set to <code>"septentrio_replie"</code>.</li>
-        <li><code>msg.message</code> set to <code>$R:&lt;command_name&gt;</code>, where <code>&lt;command_name&gt;</code> is the <b>SBF Command</b> configured in this node.</li>
+        <li><code>msg.message</code> set to <code>$R: &lt;command_name&gt;</code>, where <code>&lt;command_name&gt;</code> is the <b>SBF Command</b> configured in this node.</li>
         <li><code>msg.payload</code> set to a Buffer containing the ASCII encoded <code>msg.message</code> string.</li>
     </ul>
-    <p>The <b>SBF Command</b> field must be configured with the name of the command to acknowledge.</p>
+    <p>The <b>SBF Command</b> field must be configured with the name of the command to send as a reply.</p>
+    <p><strong>Note:</strong> This node responds to any incoming septentrio_command message, regardless of the specific command received. It always sends the same predefined command reply.</p>
 </script>

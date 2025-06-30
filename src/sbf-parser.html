@@ -49,22 +49,22 @@
         <li>Parsed SBF blocks, Septentrio messages (replies, transmissions, descriptions, SNMP), RTCM, NMEA, or unknown message types.</li>
     </ol>
     <dl class="message-properties">
-        <dt>block_name <span class="property-type">string</span></dt>
+        <dt>blockName <span class="property-type">string</span></dt>
         <dd>(Only for SBF blocks) The name of the parsed SBF block (e.g., 'PVTGeodetic').</dd>
         <dt>block <span class="property-type">object</span></dt>
         <dd>(Only for SBF blocks) The parsed data content of the SBF block.</dd>
         <dt>payload <span class="property-type">buffer</span></dt>
         <dd>(For non-SBF messages or rejected SBF data) The raw message payload.</dd>
         <dt>type <span class="property-type">string</span></dt>
-        <dd>Indicates the message type: 'SBF', 'septentrio_replie', 'septentrio_transmission', 'septentrio_description', 'septentrio_snmp', 'rtcm', 'nmea', 'rejected_sbf_buffer', or 'unknow'.</dd>
+        <dd>Indicates the message type: 'SBF', 'septentrio_replie', 'septentrio_transmission', 'septentrio_description', 'septentrio_snmp', 'rtcm', 'nmea', 'rejected_sbf_buffer', or 'unknown'.</dd>
         <dt>rejected_reason <span class="property-type">any</span></dt>
         <dd>(Only for rejected_sbf_buffer) Information about why the SBF buffer was rejected by the parser.</dd>
         <dt>infos <span class="property-type">string</span></dt>
-        <dd>(Only for 'unknow' type) Additional info about the unknown message type.</dd>
+        <dd>(Only for 'unknown' type) Additional info about the unknown message type.</dd>
         <dt>_parsed_by <span class="property-type">string</span></dt>
-        <dd>The name assigned to this parser node instance (either configured or a default random name).</dd>
+        <dd>The name assigned to this parser node instance (either configured or a default random name). This field is added to all output messages to identify their source parser.</dd>
     </dl>
     <h3>Details</h3>
     <p>This node identifies and separates different message types from a Septentrio receiver stream. It buffers SBF messages and uses an external Python script (`python_parser.py`) for parsing them in batches to improve efficiency. Other message types are passed through directly. It also provides status information about the data throughput.</p>
     <p>Configure the <b>Parser Name</b> to easily identify messages originating from this specific node instance in downstream flows. If left empty, a default name like `default_name_abc12` will be generated.</p>
-</script> e
+</script>

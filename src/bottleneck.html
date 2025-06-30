@@ -47,24 +47,25 @@
 
 <!-- Help text for the node -->
 <script type="text/x-red" data-help-name="bottleneck">
-    <p>Forwards messages from the input(s) with the highest current priority.</p>
+    <p>Forwards messages from the source(s) with the highest current priority.</p>
     <h3>Details</h3>
-    <p>The node dynamically determines the number of inputs based on the highest port number (<code>msg._port</code>) received. You do not need to configure the number of inputs manually.</p>
-    <p>Each input has a default priority of 0.</p>
-    <p>The node monitors incoming messages on all dynamically discovered inputs. It outputs messages only from the input(s) that currently possess the highest priority value among all active inputs.</p>
-    <p>If multiple inputs share the same highest priority, messages from all of them will be forwarded if the "Allow multiple" option is checked. Otherwise, only the message from the input with the lowest index (e.g., Input 1 before Input 2) is forwarded.</p>
+    <p>The node dynamically determines source inputs based on the <code>msg._parsed_by</code> field. Each unique value in this field represents a different source. You do not need to configure the number of sources manually.</p>
+    <p>Each source has a default priority of 0.</p>
+    <p>The node monitors incoming messages from all dynamically discovered sources. It outputs messages only from the source(s) that currently possess the highest priority value among all active sources.</p>
+    <p>If multiple sources share the same highest priority, messages from all of them will be forwarded if the "Allow multiple" option is checked. Otherwise, only messages from the first source (alphabetically by source ID) with the highest priority are forwarded.</p>
+    <p><strong>Note:</strong> Messages without a valid <code>msg._parsed_by</code> string field are forwarded regardless of priority settings.</p>
     <h3>Priority Control</h3>
-    <p>The priority of an input can be dynamically updated by sending a message to that specific input (identified by <code>msg._port</code>) with the following properties:</p>
+    <p>The priority of a source can be dynamically updated by sending a message from that specific source with the following properties:</p>
     <ul>
         <li><code>msg.command</code>: set to the string <code>"set"</code></li>
         <li><code>msg.priority</code>: set to the desired new priority (integer)</li>
     </ul>
-    <p>The <code>allowMultiple</code> behavior (whether to forward from all inputs sharing the highest priority) can also be updated dynamically. Send a message to any input with:</p>
+    <p>The <code>allowMultiple</code> behavior (whether to forward from all sources sharing the highest priority) can also be updated dynamically. Send a message from any source with:</p>
     <ul>
         <li><code>msg.command</code>: set to the string <code>"setAllowMultiple"</code></li>
         <li><code>msg.allowMultiple</code>: set to the desired boolean value (<code>true</code> or <code>false</code>)</li>
     </ul>
     <p>Command messages are used only to update the priority or settings and are not forwarded to the output.</p>
     <h3>Status</h3>
-    <p>The node status indicates the id of the input(s) currently being forwarded and the total number of inputs detected so far when no inputs are active.</p>
+    <p>The node status indicates the source ID(s) currently being forwarded and their priority. When no sources are active, it shows the total number of known sources.</p>
 </script>

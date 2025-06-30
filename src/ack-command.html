@@ -70,23 +70,28 @@
 
 <script type="text/x-red" data-help-name="ack-command">
     <p>Acknowledges specific Septentrio commands based on configuration.</p>
-    <p>This node listens for messages with <code>msg.type</code> set to <code>"septentrio_command"</code> and checks the <code>msg.command_name</code> property.</p>
+    <p>This node listens for messages with <code>msg.type</code> set to <code>"septentrio_command"</code> and checks the <code>msg.command_info</code> property.</p>
 
     <h4>Configuration:</h4>
     <ul>
-        <li><b>Acknowledge All Commands:</b> If checked, any incoming command in <code>msg.command_name</code> will be acknowledged.</li>
+        <li><b>Acknowledge All Commands:</b> If checked, any incoming command in <code>msg.command_info</code> will be acknowledged.</li>
         <li><b>Predefined Commands:</b> Check the boxes for common commands (sso, sdio, sno, spm, erst) you want to acknowledge.</li>
         <li><b>Custom Commands:</b> Enter a comma-separated list of additional command names to acknowledge.</li>
     </ul>
 
-    <h4>Output:</h4>
-    <p>If the incoming <code>msg.command_name</code> matches the configuration (either 'All', a checked predefined command, or a listed custom command), the node sends a reply message:</p>
+    <h4>Outputs:</h4>
+    <p>This node has two outputs:</p>
+    <ul>
+        <li><b>Output 1:</b> Non-command messages and unacknowledged command messages are passed through here.</li>
+        <li><b>Output 2:</b> Acknowledgment replies for matched commands are sent here.</li>
+    </ul>
+    
+    <p>If the incoming <code>msg.command_info</code> matches the configuration (either 'All', a checked predefined command, or a listed custom command), the node sends an acknowledgment reply to output 2:</p>
     <ul>
         <li><code>msg.type</code>: <code>"septentrio_replie"</code></li>
-        <li><code>msg.message</code>: <code>$R:&lt;command_name&gt;</code> (where <code>&lt;command_name&gt;</code> is the acknowledged command from <code>msg.command_name</code>)</li>
+        <li><code>msg.message</code>: <code>$R: &lt;command_name&gt;</code> (where <code>&lt;command_name&gt;</code> is the acknowledged command from <code>msg.command_info</code>)</li>
         <li><code>msg.payload</code>: A Buffer containing the ASCII encoded <code>msg.message</code> string.</li>
-        <li><code>msg.acknowledged_command</code>: The original command name that was acknowledged.</li>
     </ul>
-    <p>If a command arrives that is not configured for acknowledgement, it is logged and dropped (unless modified to pass through).</p>
-    <p>Messages without <code>msg.type = "septentrio_command"</code> or without a valid string <code>msg.command_name</code> will cause a warning or be passed through if they are not of type `septentrio_command`.</p>
+    <p>Commands that don't match the configuration are passed through to output 1 unchanged.</p>
+    <p>Messages that are not of type <code>"septentrio_command"</code> are passed through to output 1.</p>
 </script>

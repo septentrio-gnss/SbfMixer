@@ -108,8 +108,9 @@
         <p>Triggers an output when the value of a monitored field changes, sending a clone of the message that triggered the change.</p>
         <p>Each rule corresponds to a separate output port.</p>
         <ul>
-            <li><b>Block ID:</b> The SBF block name (e.g., "4007" for PVTGeodetic).</li>
+            <li><b>Block ID:</b> The SBF block name (e.g., "4007" for PVTGeodetic, or "PVTGeodetic").</li>
             <li><b>Field Name:</b> The specific field within the block's <code>msg.block</code> object (e.g., "Latitude").</li>
         </ul>
+        <p><strong>Important:</strong> Only messages where the monitored field value has actually changed from the previous value will trigger an output. The first occurrence of a field will always trigger since there's no previous value to compare against.</p>
     </div>
 </script>
