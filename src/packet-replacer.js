@@ -81,6 +81,14 @@ module.exports = function(RED) {
                             node.status({ fill: "blue", shape: "dot", text: "Rules cleared" });
                             break;
 
+                        case 'delete':
+                            if(blockName){
+                                node.rules[blockName] = {};
+                                node.status({ fill: "green", shape: "dot", text: `Delete ${blockName} rules` });
+                            } else {
+                                node.status({ fill: "red", shape: "dot", text: `Delete: blockName is missing.` });
+                            }
+
                         default:
                             node.warn(`Unknown command: ${msg.command}`);
                     }
