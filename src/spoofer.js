@@ -106,6 +106,11 @@ module.exports = function(RED) {
                             fill: "blue", shape: "ring",
                             text: `Fast forwarded ${forwardTime}ms`
                         });
+                        if(forwardTime < 0){
+                            // Read memory from the beginning when going back in time
+                            i = 0;
+                        }
+
                         break;
                     case 'setTime':
                         if (!spoofingStartTime) {
@@ -182,52 +187,55 @@ module.exports = function(RED) {
 
                 updateStatus();
                 return;
-            }
 
-            // Only spoof sbf
-            if(msg.type != "SBF"){
-                node.send(msg);
-                return;
-            }
+                
+            // Spoofing message
+            }else{
+                // Only spoof sbf
+                if(msg.type != "SBF"){
+                    node.send(msg);
+                    return;
+                }
 
-            // Not enough messages
-            if(relativeTimes.length == 0 || (relativeTimes[relativeTimes.length - 1] < 2000)){ // At least 2s
-                node.send(msg);
+                // Not enough messages
+                if(relativeTimes.length == 0 || (relativeTimes[relativeTimes.length - 1] < 2000)){ // At least 2s
+                    node.send(msg);
+                    updateStatus();
+                    return
+                }
+                
+                // First message
+                if(!spoofingStartTime){
+                    init_playback();
+                    spoofingStartTime = performance.now();
+                }
+
+                // Reading spoofed messages
+                let relativeTime = performance.now() - spoofingStartTime;
+                while(relativeTimes[i] < relativeTime && i < memory.length){
+                    const replayedBlock = memory[i];
+                    if (replayedBlock.blockName) {
+                        passedMessages[replayedBlock.blockName] = replayedBlock;
+                    }
+                    i++;
+                }
+
+                // Spoof message
+                if(msg.blockName && (msg.blockName in passedMessages)){
+                    msg.block = passedMessages[msg.blockName];
+                    if(msg.payload){
+                        delete msg.payload;
+                    }
+                }
+
+                // End of memory reach
+                if(i >= memory.length){
+                    init_playback();
+                }
+
                 updateStatus();
-                return
+                node.send(msg);
             }
-            
-            // First message
-            if(!spoofingStartTime){
-                init_playback();
-                spoofingStartTime = performance.now();
-            }
-
-            // Reading spoofed messages
-            let relativeTime = performance.now() - spoofingStartTime;
-            while(relativeTimes[i] < relativeTime && i < memory.length){
-                const replayedBlock = memory[i];
-                if (replayedBlock.blockName) {
-                    passedMessages[replayedBlock.blockName] = replayedBlock;
-                }
-                i++;
-            }
-
-            // Spoof message
-            if(msg.blockName && (msg.blockName in passedMessages)){
-                msg.block = passedMessages[msg.blockName];
-                if(msg.payload){
-                    delete msg.payload;
-                }
-            }
-
-            // End of memory reach
-            if(i == memory.length){
-                init_playback();
-            }
-
-            updateStatus();
-            node.send(msg);
         });
     
     }

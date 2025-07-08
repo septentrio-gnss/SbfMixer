@@ -1,6 +1,6 @@
 [
     {
-        "id": "6ecc9481bc28afa7",
+        "id": "ba602c161c597568",
         "type": "tab",
         "label": "Flow 8",
         "disabled": false,
@@ -8,9 +8,9 @@
         "env": []
     },
     {
-        "id": "c6416f754b15613d",
+        "id": "3e41e654fa728a14",
         "type": "serial out",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "serial": "0d00af4871687cdd",
         "x": 1500,
@@ -18,55 +18,55 @@
         "wires": []
     },
     {
-        "id": "8102e910b1a13db0",
+        "id": "157c589da6c9dcb1",
         "type": "sbf-parser",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "x": 500,
         "y": 320,
         "wires": [
             [
-                "fb7607048d10b18a",
-                "01cabbe78f0ea40f"
+                "bb8a9ee2997eb9c1",
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "f7c1bc6f20715621",
+        "id": "17594bf89cecc523",
         "type": "sbf-encoder",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "x": 1250,
         "y": 320,
         "wires": [
             [
-                "c6416f754b15613d"
+                "3e41e654fa728a14"
             ]
         ]
     },
     {
-        "id": "fb7607048d10b18a",
+        "id": "bb8a9ee2997eb9c1",
         "type": "receiver-state",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "x": 720,
         "y": 260,
         "wires": []
     },
     {
-        "id": "dabbb2cc55d971a6",
+        "id": "a52df19a90fb2de0",
         "type": "receiver-state",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "x": 1000,
         "y": 260,
         "wires": []
     },
     {
-        "id": "eda4a0dce454d860",
+        "id": "5d1c21b1eca1e89f",
         "type": "debug",
-        "z": "6ecc9481bc28afa7",
-        "name": "Computer",
+        "z": "ba602c161c597568",
+        "name": "Debug2",
         "active": false,
         "tosidebar": true,
         "console": false,
@@ -75,83 +75,39 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
-        "y": 760,
+        "x": 640,
+        "y": 780,
         "wires": []
     },
     {
-        "id": "a42cf8048ab8b679",
+        "id": "06c1357dc3e04b4d",
         "type": "serial in",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "serial": "0d00af4871687cdd",
-        "x": 220,
-        "y": 700,
+        "x": 240,
+        "y": 720,
         "wires": [
             [
-                "2f6448e9a86c9427",
-                "0466b3955bf856ca"
+                "47507e7189f5f29d",
+                "811bcd3909cf63b1"
             ]
         ]
     },
     {
-        "id": "1c6f8c9f9b35caf9",
-        "type": "inject",
-        "z": "6ecc9481bc28afa7",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 240,
-        "y": 760,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "2f6448e9a86c9427",
+        "id": "47507e7189f5f29d",
         "type": "serial out",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "serial": "34ae64e833f101aa",
-        "x": 460,
-        "y": 700,
+        "x": 480,
+        "y": 720,
         "wires": []
     },
     {
-        "id": "d465f09cea0f650a",
-        "type": "debug",
-        "z": "6ecc9481bc28afa7",
-        "name": "Mosaic",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 620,
-        "y": 160,
-        "wires": []
-    },
-    {
-        "id": "0466b3955bf856ca",
+        "id": "811bcd3909cf63b1",
         "type": "join",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "mode": "custom",
         "build": "string",
@@ -169,62 +125,32 @@
         "reduceInit": "",
         "reduceInitType": "num",
         "reduceFixup": "",
-        "x": 430,
-        "y": 760,
+        "x": 510,
+        "y": 780,
         "wires": [
             [
-                "eda4a0dce454d860"
+                "5d1c21b1eca1e89f"
             ]
         ]
     },
     {
-        "id": "95f21e674c9803c0",
-        "type": "join",
-        "z": "6ecc9481bc28afa7",
-        "name": "",
-        "mode": "custom",
-        "build": "string",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "",
-        "joinerType": "str",
-        "useparts": false,
-        "accumulate": false,
-        "timeout": "0.1",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "",
-        "reduceFixup": "",
-        "x": 490,
-        "y": 160,
-        "wires": [
-            [
-                "d465f09cea0f650a"
-            ]
-        ]
-    },
-    {
-        "id": "0fcd85b30a5bc9bd",
+        "id": "884ed31103c1b4b1",
         "type": "serial in",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
-        "serial": "34ae64e833f101aa",
-        "x": 270,
+        "serial": "d56a1d37b95bd5ba",
+        "x": 310,
         "y": 320,
         "wires": [
             [
-                "95f21e674c9803c0",
-                "8102e910b1a13db0"
+                "157c589da6c9dcb1"
             ]
         ]
     },
     {
-        "id": "01cabbe78f0ea40f",
+        "id": "0659cf2f04f4cb0a",
         "type": "spoofer",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "skipAfterMs": 5000,
         "skipDurationMs": "10",
@@ -235,49 +161,49 @@
         "y": 320,
         "wires": [
             [
-                "dabbb2cc55d971a6",
-                "a5c8ac6caae2c175"
+                "a52df19a90fb2de0",
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "cbb1b51ae7850940",
+        "id": "944f701758539ab7",
         "type": "sbf-parser",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "norway_file",
         "parser_name": "norway_file",
         "x": 490,
         "y": 400,
         "wires": [
             [
-                "01cabbe78f0ea40f"
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "4d2422f334e66cae",
+        "id": "b8403e8d218d2de3",
         "type": "file in",
-        "z": "6ecc9481bc28afa7",
-        "name": "Norway Sbf",
-        "filename": "/home/lmx/a_septentrio/flow/selection.sbf",
+        "z": "ba602c161c597568",
+        "name": "Sbf file",
+        "filename": "/home/max/septentrio/SbfMixer/sbf_files/jamming.sbf",
         "filenameType": "str",
         "format": "",
         "chunk": false,
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 310,
+        "x": 290,
         "y": 400,
         "wires": [
             [
-                "cbb1b51ae7850940"
+                "944f701758539ab7"
             ]
         ]
     },
     {
-        "id": "241e275e93263045",
+        "id": "91f5dfaa18ec0e92",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "props": [
             {
@@ -295,14 +221,14 @@
         "y": 400,
         "wires": [
             [
-                "4d2422f334e66cae"
+                "b8403e8d218d2de3"
             ]
         ]
     },
     {
-        "id": "a43c12c0500530fa",
+        "id": "15745e08bb8343b4",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "reset",
         "props": [
             {
@@ -320,14 +246,14 @@
         "y": 580,
         "wires": [
             [
-                "01cabbe78f0ea40f"
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "066b1cf5f62d291d",
+        "id": "0b180b3bd420d587",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "restart",
         "props": [
             {
@@ -345,14 +271,14 @@
         "y": 540,
         "wires": [
             [
-                "01cabbe78f0ea40f"
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "599bacd1a75c19af",
+        "id": "0e5dad78c262c8da",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "+1 min",
         "props": [
             {
@@ -375,14 +301,14 @@
         "y": 460,
         "wires": [
             [
-                "01cabbe78f0ea40f"
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "a52f50bde840a77e",
+        "id": "33c23556ac11438a",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "-1 min",
         "props": [
             {
@@ -405,16 +331,16 @@
         "y": 500,
         "wires": [
             [
-                "01cabbe78f0ea40f"
+                "0659cf2f04f4cb0a"
             ]
         ]
     },
     {
-        "id": "3520f64085deb79c",
+        "id": "63dbd4949bc4f57c",
         "type": "debug",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Mosaic",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -422,51 +348,14 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1380,
-        "y": 160,
+        "x": 1420,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "037e115d3a3446b3",
-        "type": "switch",
-        "z": "6ecc9481bc28afa7",
-        "name": "",
-        "property": "blockName",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "GALAuthStatus",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "RFStatus",
-                "vt": "str"
-            },
-            {
-                "t": "eq",
-                "v": "QualityInd",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "repair": false,
-        "outputs": 3,
-        "x": 1230,
-        "y": 160,
-        "wires": [
-            [],
-            [
-                "3520f64085deb79c"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "8216066388d77cc0",
+        "id": "8dca7b9453ae952e",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Set status 0b11",
         "props": [
             {
@@ -480,12 +369,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "3",
                 "vt": "num"
             }
@@ -499,14 +383,14 @@
         "y": 460,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "7a2ca945cc04ab23",
+        "id": "3e22c3d3cda4eb7d",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Set status 0b00",
         "props": [
             {
@@ -520,12 +404,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "0",
                 "vt": "num"
             }
@@ -539,14 +418,14 @@
         "y": 580,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "af0f3456cffeb829",
+        "id": "e1c6b0220729ed14",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Clear",
         "props": [
             {
@@ -561,17 +440,17 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 770,
-        "y": 700,
+        "y": 660,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "166dffb384b2aa6b",
+        "id": "2a887960dd967f2f",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Get",
         "props": [
             {
@@ -586,52 +465,17 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 770,
-        "y": 740,
+        "y": 700,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "9a0be361c1fbff24",
+        "id": "a670ffae7562df5d",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
-        "name": "Del status rule",
-        "props": [
-            {
-                "p": "command",
-                "v": "delete",
-                "vt": "str"
-            },
-            {
-                "p": "blockName",
-                "v": "RFStatus",
-                "vt": "str"
-            },
-            {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "x": 750,
-        "y": 660,
-        "wires": [
-            [
-                "a5c8ac6caae2c175"
-            ]
-        ]
-    },
-    {
-        "id": "b71298e9004362c2",
-        "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Set status 0b10",
         "props": [
             {
@@ -645,12 +489,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "2",
                 "vt": "num"
             }
@@ -664,14 +503,14 @@
         "y": 500,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "e7f31a3773c0a877",
+        "id": "383cc2863d69f36b",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Set status 0b01",
         "props": [
             {
@@ -685,12 +524,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "1",
                 "vt": "num"
             }
@@ -704,40 +538,40 @@
         "y": 540,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
             ]
         ]
     },
     {
-        "id": "a5c8ac6caae2c175",
+        "id": "1f4296ae53160628",
         "type": "packet-replacer",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "initialRules": [],
         "x": 1000,
         "y": 320,
         "wires": [
             [
-                "f7c1bc6f20715621",
-                "38e1d50094bbdf58",
-                "037e115d3a3446b3"
+                "17594bf89cecc523",
+                "5b55987b2ed2ab43",
+                "504c255149c2643b"
             ],
             []
         ]
     },
     {
-        "id": "38e1d50094bbdf58",
+        "id": "5b55987b2ed2ab43",
         "type": "receiver-state",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "",
         "x": 1260,
         "y": 260,
         "wires": []
     },
     {
-        "id": "16cb2e94e43b4cb6",
+        "id": "b09811fe560cfea2",
         "type": "inject",
-        "z": "6ecc9481bc28afa7",
+        "z": "ba602c161c597568",
         "name": "Set N=0",
         "props": [
             {
@@ -751,12 +585,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "N",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "N",
                 "v": "0",
                 "vt": "num"
             }
@@ -770,7 +599,27 @@
         "y": 620,
         "wires": [
             [
-                "a5c8ac6caae2c175"
+                "1f4296ae53160628"
+            ]
+        ]
+    },
+    {
+        "id": "504c255149c2643b",
+        "type": "function",
+        "z": "ba602c161c597568",
+        "name": "Filter messages",
+        "func": "if(msg.blockName == \"RFStatus\"){\n    return msg;\n}\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1260,
+        "y": 220,
+        "wires": [
+            [
+                "63dbd4949bc4f57c"
             ]
         ]
     },
@@ -799,6 +648,26 @@
         "type": "serial-port",
         "name": "Mosaic ACM1",
         "serialport": "/dev/ttyACM1",
+        "serialbaud": "115200",
+        "databits": 8,
+        "parity": "none",
+        "stopbits": 1,
+        "waitfor": "",
+        "dtr": "none",
+        "rts": "none",
+        "cts": "none",
+        "dsr": "none",
+        "newline": "1",
+        "bin": "bin",
+        "out": "count",
+        "addchar": "",
+        "responsetimeout": 10000
+    },
+    {
+        "id": "d56a1d37b95bd5ba",
+        "type": "serial-port",
+        "name": "Mosaic ACM0",
+        "serialport": "/dev/ttyACM0",
         "serialbaud": "115200",
         "databits": 8,
         "parity": "none",

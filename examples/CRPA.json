@@ -1,6 +1,6 @@
 [
     {
-        "id": "eaaf8be7e967820e",
+        "id": "50927f2afa2de4c4",
         "type": "tab",
         "label": "Flow 8",
         "disabled": false,
@@ -8,18 +8,18 @@
         "env": []
     },
     {
-        "id": "6ce5bccd4fdb3114",
+        "id": "7f6d1af6894babf4",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "",
         "x": 820,
         "y": 300,
         "wires": []
     },
     {
-        "id": "c6b435fc8c13724f",
+        "id": "089f3132cb53fa42",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Set status 3",
         "props": [
             {
@@ -33,12 +33,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "3",
                 "vt": "num"
             }
@@ -52,14 +47,14 @@
         "y": 360,
         "wires": [
             [
-                "e6de03eea350db78"
+                "f49fd6a36f15ecad"
             ]
         ]
     },
     {
-        "id": "305ff1026ece63d7",
+        "id": "48d8a8730279cf6b",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Set status 0",
         "props": [
             {
@@ -73,12 +68,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "0",
                 "vt": "num"
             }
@@ -92,14 +82,14 @@
         "y": 400,
         "wires": [
             [
-                "e6de03eea350db78"
+                "f49fd6a36f15ecad"
             ]
         ]
     },
     {
-        "id": "b52e36d1a1f36181",
+        "id": "7a786e8c3561c9e9",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Clear",
         "props": [
             {
@@ -117,30 +107,30 @@
         "y": 440,
         "wires": [
             [
-                "e6de03eea350db78"
+                "f49fd6a36f15ecad"
             ]
         ]
     },
     {
-        "id": "e6de03eea350db78",
+        "id": "f49fd6a36f15ecad",
         "type": "packet-replacer",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "",
         "initialRules": [],
         "x": 600,
         "y": 300,
         "wires": [
             [
-                "6ce5bccd4fdb3114",
-                "5ba90d73996bf72b"
+                "7f6d1af6894babf4",
+                "0a37e745adfb6288"
             ],
             []
         ]
     },
     {
-        "id": "5ba90d73996bf72b",
+        "id": "0a37e745adfb6288",
         "type": "function",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "To priority",
         "func": "if (msg.blockName == \"RFStatus\") {\n    const flags = msg.block[\"Flags\"]\n    let priority = 0;\n\n    if (flags & 0b01) {\n        priority -= 1;\n    }\n\n    if (flags & 0b10) {\n        priority -= 1;\n    }\n\n    const msg_priority = {\n        \"_parsed_by\": msg._parsed_by,\n        \"command\": \"set\",\n        \"priority\": priority\n    }\n\n    return [[msg_priority, msg]];\n}\n\nreturn msg;",
         "outputs": 1,
@@ -153,32 +143,149 @@
         "y": 260,
         "wires": [
             [
-                "b99e7c0420eeb7b1"
+                "5bdace5ad5185194"
             ]
         ]
     },
     {
-        "id": "f76c148bd56ee6db",
+        "id": "dae7d5fd522c7d00",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "",
         "x": 1280,
         "y": 400,
         "wires": []
     },
     {
-        "id": "eea9eb17727860cc",
+        "id": "2d2092f96deffdda",
         "type": "receiver-state",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "",
         "x": 820,
         "y": 540,
         "wires": []
     },
     {
-        "id": "36b34518269cdc87",
+        "id": "95ec3b30bf082ab0",
+        "type": "packet-replacer",
+        "z": "50927f2afa2de4c4",
+        "name": "",
+        "initialRules": [],
+        "x": 600,
+        "y": 500,
+        "wires": [
+            [
+                "2d2092f96deffdda",
+                "8bd01bf2ea161f1d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "5bdace5ad5185194",
+        "type": "bottleneck",
+        "z": "50927f2afa2de4c4",
+        "name": "",
+        "allowMultiple": false,
+        "x": 1070,
+        "y": 360,
+        "wires": [
+            [
+                "dae7d5fd522c7d00",
+                "bb02f508a3e73018"
+            ]
+        ]
+    },
+    {
+        "id": "8bd01bf2ea161f1d",
+        "type": "function",
+        "z": "50927f2afa2de4c4",
+        "name": "To priority",
+        "func": "if (msg.blockName == \"RFStatus\") {\n    const flags = msg.block[\"Flags\"]\n    let priority = 0;\n\n    if (flags & 0b01) {\n        priority -= 1;\n    }\n\n    if (flags & 0b10) {\n        priority -= 1;\n    }\n\n    const msg_priority = {\n        \"_parsed_by\": msg._parsed_by,\n        \"command\": \"set\",\n        \"priority\": priority\n    }\n\n    return [[msg_priority, msg]];\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 500,
+        "wires": [
+            [
+                "5bdace5ad5185194"
+            ]
+        ]
+    },
+    {
+        "id": "b9dc1bcd01f8fd3e",
+        "type": "sbf-parser",
+        "z": "50927f2afa2de4c4",
+        "name": "",
+        "parser_name": "right",
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "f49fd6a36f15ecad"
+            ]
+        ]
+    },
+    {
+        "id": "1dead4ec4e10ae04",
+        "type": "sbf-parser",
+        "z": "50927f2afa2de4c4",
+        "name": "",
+        "parser_name": "left",
+        "x": 380,
+        "y": 500,
+        "wires": [
+            [
+                "95ec3b30bf082ab0"
+            ]
+        ]
+    },
+    {
+        "id": "bb02f508a3e73018",
+        "type": "serial out",
+        "z": "50927f2afa2de4c4",
+        "name": "",
+        "serial": "a4af84c748f60b76",
+        "x": 1260,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "a948b2c19163b88c",
+        "type": "serial in",
+        "z": "50927f2afa2de4c4",
+        "name": "Mosaic Left Side",
+        "serial": "d56a1d37b95bd5ba",
+        "x": 160,
+        "y": 500,
+        "wires": [
+            [
+                "1dead4ec4e10ae04"
+            ]
+        ]
+    },
+    {
+        "id": "129a9bee6f29d3e6",
+        "type": "serial in",
+        "z": "50927f2afa2de4c4",
+        "name": "Mosaic Right Side",
+        "serial": "d56a1d37b95bd5ba",
+        "x": 170,
+        "y": 300,
+        "wires": [
+            [
+                "b9dc1bcd01f8fd3e"
+            ]
+        ]
+    },
+    {
+        "id": "84175e328befa2f9",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Set status 3",
         "props": [
             {
@@ -192,12 +299,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "3",
                 "vt": "num"
             }
@@ -208,17 +310,17 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 370,
-        "y": 560,
+        "y": 580,
         "wires": [
             [
-                "f0d88a72fa94e27f"
+                "95ec3b30bf082ab0"
             ]
         ]
     },
     {
-        "id": "b0d5f2714a3f1004",
+        "id": "0a5bb48416403d13",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Set status 0",
         "props": [
             {
@@ -232,12 +334,7 @@
                 "vt": "str"
             },
             {
-                "p": "fieldName",
-                "v": "Flags",
-                "vt": "str"
-            },
-            {
-                "p": "value",
+                "p": "Flags",
                 "v": "0",
                 "vt": "num"
             }
@@ -248,17 +345,17 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 370,
-        "y": 600,
+        "y": 620,
         "wires": [
             [
-                "f0d88a72fa94e27f"
+                "95ec3b30bf082ab0"
             ]
         ]
     },
     {
-        "id": "e66123d39b229348",
+        "id": "38d1981a6505798e",
         "type": "inject",
-        "z": "eaaf8be7e967820e",
+        "z": "50927f2afa2de4c4",
         "name": "Clear",
         "props": [
             {
@@ -273,128 +370,10 @@
         "onceDelay": 0.1,
         "topic": "",
         "x": 390,
-        "y": 640,
+        "y": 660,
         "wires": [
             [
-                "f0d88a72fa94e27f"
-            ]
-        ]
-    },
-    {
-        "id": "f0d88a72fa94e27f",
-        "type": "packet-replacer",
-        "z": "eaaf8be7e967820e",
-        "name": "",
-        "initialRules": [],
-        "x": 600,
-        "y": 500,
-        "wires": [
-            [
-                "eea9eb17727860cc",
-                "445f2e6df1b5d2d0"
-            ],
-            []
-        ]
-    },
-    {
-        "id": "b99e7c0420eeb7b1",
-        "type": "bottleneck",
-        "z": "eaaf8be7e967820e",
-        "name": "",
-        "priorities": [],
-        "allowMultiple": false,
-        "x": 1070,
-        "y": 360,
-        "wires": [
-            [
-                "f76c148bd56ee6db",
-                "af3662aa9fa3cdbf"
-            ]
-        ]
-    },
-    {
-        "id": "445f2e6df1b5d2d0",
-        "type": "function",
-        "z": "eaaf8be7e967820e",
-        "name": "To priority",
-        "func": "if (msg.blockName == \"RFStatus\") {\n    const flags = msg.block[\"Flags\"]\n    let priority = 0;\n\n    if (flags & 0b01) {\n        priority -= 1;\n    }\n\n    if (flags & 0b10) {\n        priority -= 1;\n    }\n\n    const msg_priority = {\n        \"_parsed_by\": msg._parsed_by,\n        \"command\": \"set\",\n        \"priority\": priority\n    }\n\n    return [[msg_priority, msg]];\n}\n\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 800,
-        "y": 500,
-        "wires": [
-            [
-                "b99e7c0420eeb7b1"
-            ]
-        ]
-    },
-    {
-        "id": "4b2de068fd5140a9",
-        "type": "sbf-parser",
-        "z": "eaaf8be7e967820e",
-        "name": "",
-        "parser_name": "right",
-        "x": 380,
-        "y": 300,
-        "wires": [
-            [
-                "e6de03eea350db78"
-            ]
-        ]
-    },
-    {
-        "id": "82dcf33869224b7a",
-        "type": "sbf-parser",
-        "z": "eaaf8be7e967820e",
-        "name": "",
-        "parser_name": "left",
-        "x": 380,
-        "y": 500,
-        "wires": [
-            [
-                "f0d88a72fa94e27f"
-            ]
-        ]
-    },
-    {
-        "id": "af3662aa9fa3cdbf",
-        "type": "serial out",
-        "z": "eaaf8be7e967820e",
-        "name": "",
-        "serial": "a4af84c748f60b76",
-        "x": 1260,
-        "y": 340,
-        "wires": []
-    },
-    {
-        "id": "88b43dab0c08bf13",
-        "type": "serial in",
-        "z": "eaaf8be7e967820e",
-        "name": "Mosaic Left Side",
-        "serial": "d56a1d37b95bd5ba",
-        "x": 160,
-        "y": 500,
-        "wires": [
-            [
-                "82dcf33869224b7a"
-            ]
-        ]
-    },
-    {
-        "id": "e3f78ca7bd69b6ca",
-        "type": "serial in",
-        "z": "eaaf8be7e967820e",
-        "name": "Mosaic Right Side",
-        "serial": "d56a1d37b95bd5ba",
-        "x": 170,
-        "y": 300,
-        "wires": [
-            [
-                "4b2de068fd5140a9"
+                "95ec3b30bf082ab0"
             ]
         ]
     },
@@ -421,7 +400,7 @@
     {
         "id": "d56a1d37b95bd5ba",
         "type": "serial-port",
-        "name": "Mosaic X5",
+        "name": "Mosaic ACM0",
         "serialport": "/dev/ttyACM0",
         "serialbaud": "115200",
         "databits": 8,
@@ -432,9 +411,9 @@
         "rts": "none",
         "cts": "none",
         "dsr": "none",
-        "newline": "200",
+        "newline": "",
         "bin": "bin",
-        "out": "time",
+        "out": "count",
         "addchar": "",
         "responsetimeout": 10000
     }

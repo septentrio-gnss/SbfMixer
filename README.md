@@ -30,9 +30,11 @@ If you want a steps-by-steps tutorial on SbfMixer, you can check `tutorial.md`
 
 ## Examples
 
+You can import theses flow from `examples/` directly into Node-RED using `Menu > Import`.
+
 | <div align="center"><img src="examples/read_stream.png" width="400" height="200"><br>[Decode Sbf stream](examples/read_stream.json)</div> | <div align="center"><img src="examples/ack_and_send_commands.png" width="400" height="200"><br>[Send and ack commands](examples/ack_and_send_commands.json)</div> |
 | -------- | ------- |
-| <div align="center"><img src="examples/CRPA.png" width="400" height="200"><br>[CRPA Configuration](examples/CRPA.json)</div> | <div align="center"><img src="examples/edit_sbf.png" width="400" height="200"><br>[Edit Sbf](examples/edit_sbf.json)</div> |
+| <div align="center"><img src="examples/CRPA.png" width="400" height="200"><br>[CRPA Configuration](examples/CRPA.json)</div> | <div align="center"><img src="examples/resilience_emulator.png" width="400" height="200"><br>[Edit Sbf](examples/resilience_emulator.json)</div> |
 
 
 ## Release note
@@ -55,6 +57,8 @@ Utils :
 - `bottleneck` : Allow to choose from multiple Sbf input 
 
 ## Tutorial
+A full tutorial can be found in `tutorial.md`.
+
 ### Setup receiver
 
 You can read SBF directly from mosaic by plugin it to your computer :
@@ -68,12 +72,13 @@ You can read SBF directly from mosaic by plugin it to your computer :
 
 ![Setup Septentrio receiver](img/receiver_output_sbf.png)
 
-You should now have SBF stream to your computer, you can check by using cat `/dev/ttyACM1` (could possibly be `/dev/ttyACM0`)
+You should now have SBF stream to your computer, you can check by using cat `/dev/ttyACM0` (could possibly be `/dev/ttyACM1`)
 You can now configure your Serial block by giving it a name, an input stream (`/dev/ttyACM1`) and the baudrate (`115200`).
 
 ![Setup Serial block](img/configure_serial.png)
 
 ### Sbf Parser
+
 The incoming stream from the serial connection use buffer of bytes. To group and decode them, you should pass it to `sbf-parser`.
 This block will send the binary to the Cython [sbfParser](https://github.com/MJeanneRose/sbfParser) and return the result in a Json message. For exemple with a `ReceiverStatus` message :
 
@@ -103,33 +108,7 @@ This block will send the binary to the Cython [sbfParser](https://github.com/MJe
 }
 ```
 
-## FAQ
-### How to output to an autopilot? (CubeOrange / Pixhawk / Other)
-
-You may need a TTL cable to emulate a serial connection, like the Septentrio receiver does with `/dev/ACM0`.
-After connecting your cable, you will see a new device, usually named `/dev/ttyUSB0`, which you can use just like the one for the Septentrio receiver via a serial block.
-
-By default, these cables can echo each input they receive. This can lead to several issues when connecting two TTL cables (infinite echo) or when connecting to an autopilot.
-You can disable this behavior using:
-
-```bash
-stty -F /dev/ttyUSB0 -echo
-```
-
-### Can I use Sbf-Mixer on the same computer as my drone emulator/pilot?
-
-The recommended setup uses a dedicated Raspberry Pi or computer to run Sbf-Mixer separately:
-
-![Setup Septentrio receiver 2 computers](img/setup1.png)
-
-You may be able to use a setup like this one:
-
-![Setup Septentrio receiver 1 computers](img/setup2.png)
-
-However, running QGC/MP on the same computer connected to the Mosaic will allow the ground control station to interact with the Septentrio receiver already used by the autopilot.
-You can try to separate them by using Docker with: `--device=/dev/ttyUSB0`
-
-
+If you need more informations, please check the `tutorial.md`
 
 
 

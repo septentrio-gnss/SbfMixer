@@ -31,8 +31,7 @@ You must also install `node-red-node-serialport`
 
 ### With command line
 
-You can also install the dependencies with the following commands:
-With `npm`:
+You can install the dependencies with `npm` using the following commands:
 ```bash
 cd ~/.node-red
 npm install @septentrio/node-red-sbf-mixer
@@ -60,8 +59,8 @@ Now, import the flow `read_stream.json` by clicking on Menu > Import (Ctrl + i).
 
 This flow consists of two parts. The upper part allows reading information transmitted by the receiver and is composed as follows:
 - Reading information on the ACM0 serial connection
-    - You must specify the name of your serial connection as well as a baud rate of 115200.
-    - Input needs to be sent as soon as they are decoded. Hence, the "Split input into fixed length of ' '" (empty = 1).
+    - You must specify the name of your serial connection as well as a baud rate of `115200`.
+    - Input needs to be sent as soon as they are decoded. Hence, the "Split input into fixed length of 1" (empty is equivalent to 1).
     - On limited hardware, you can try after a timeout of 10ms or with bigger chunks, but this can add delay or disrupt connection if you are between two devices communicating together through SbfMixer. (Autopilot <-> SbfMixer <-> Septentrio receiver)
 
 - The blocks will then be decoded using SbfParser
@@ -78,7 +77,7 @@ This flow consists of two parts. The upper part allows reading information trans
     - By default, unmodified blocks are directly transmitted using the payload property of decoded blocks. If you modify a block, you must therefore delete the payload field from the message.
     - The block will display the bandwidth of transmitted and re-encoded messages.
 
-- And transmitted as output: The information can then be transmitted to an autopilot (Ardupilot, PX4, etc...) or to any other tool
+- And transmitted as output: The information can then be transmitted to an autopilot (Ardupilot, PX4, etc...) or to any other tool !
 
 ## Modify SBF blocks
 
@@ -89,9 +88,9 @@ Let's take the example of an interference simulator that will modify packets tra
 You can modify SBF blocks in 2 different ways.
 ### Spoofer
 This block will take SBF blocks from one parser to substitute them with those from another parser.
-To do this, you must specify the name of the parser that will give the parser the values of messages to substitute, here we have an extract from a recording made in Norway with jamming and spoofing tested in real conditions.
+To do this, you must specify the name of the parser that will give the parser the values of messages to substitute. You can find somes recorded sbf file in `sbfèfile/`, including a 2min sbf from Norway with jamming and spoofing tested in real conditions.
 
-The spoofer will start modifying packets as soon as the first block from another parser is received.
+The spoofer will start modifying packets as soon as he received a sbf block with at least 2s of recording from another parser.
 Only SBF blocks will be modified, the value of a block will take the most recent value of the same type block available in the recording.
 
 ### Packet replacer
@@ -109,11 +108,12 @@ If you notice that the encoder can no longer encode or you have warnings like:
 struct.error: required argument is not an integer
 ```
 This means you have probably modified a message with a value of a different type than the original one, so the block cannot be re-encoded.
-For this, make sure that the type in your inject node is correct, most often, an integer or a float.
+For this, make sure that the type in your inject node is correct, most often, an integer or a float, but set by default to string by Node-RED.
 
 
 ## Connect SbfMixer to another output (Autopilot, base station)
 
+### Connect SbfMixer to a Autopilot
 You can use SbfMixer as middleware between your receiver and another application (Autopilot, Base station, software, etc...).
 
 ![Setup Septentrio receiver 2 computers](img/setup1.png)
@@ -121,9 +121,34 @@ You can use SbfMixer as middleware between your receiver and another application
 This setup will allow you to directly analyze communications and be able to modify them on the fly.
 To do this, if you previously used a [JST](https://customersupport.septentrio.com/s/article/How-to-integrate-latest-Septentrio-receivers-with-PX4-autopilot-using-Pixhawk-standard-boards) cable, you will need to use a [TTL-234X-5V](https://www.google.com/search?client=firefox-b-d&sca_esv=000223f181a12c46&q=TTL-234X-5V&udm=2&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIegMOm3ItDJ-cT-Q5w0bTw0aWDUsQli3okTHBRSgORXy6CJUQc5sVHi-huEHnZn--lXeI5cOKb8xaiaZN98RZ8FshAoaS4PtnoCKohGCXSsG3bp_VbIK8PnkxyWVWwWqyBopz3rD3o3H-MSgFM3SfENhHrzq9&sa=X&ved=2ahUKEwjUhJiq2pGOAxUMRaQEHZTnJdUQtKgLKAF6BAgSEAE&biw=1969&bih=967&dpr=2) cable allowing you to emulate a serial connection on your computer.
 
-If you previously used a USB cable to connect your GPS receiver to a computer, you will then need two. Indeed, the Mosaic-H receiver emulates a serial connection via USB when you connect it to your computer, which explains why you can read a data stream on the serial connection `/dev/ttyACM0`. You must then transform the stream from SbfMixer into a data stream on your computer's serial connection, then decode it on your second computer, hence the two TTL cables.
+On Linux, when connecting a TTL cable, you should get a new connection named `ttyUSB0` in the `/dev` directory.
+You can make a first analysis of the Pixhawk stream from the TTL cable using `cat /dev/ttyUSB0` :
 
-To do this, you must use the serial out node block.
+![Serial from Pixhawk depending of configuration used](img/serial.png)
+
+You should get a result containing `gecm` and `SSSSSSSSSS`, if you have :
+- `cat: /dev/ttyUSB0: Device or resource busy` 
+    - Did you have another device already using this device ?
+    - Close QGroundControl, Node-red and try again.
+- I have nothing in output, or very few caracteres 
+    - You may need to setup the Device to raw mode using `stty -F /dev/USB0 raw -echo`
+    - You can also force the baudrate using `stty -F /dev/USB0 115200`
+- I get a lots of information but no `gecm` and `SSSSSSSSSS`
+    - Your autopilot is looking for a uBlox or other receiver.
+    - Configure your autopilot to use Septentrio receiver.
+
+### Connect SbfMixer to a base station 
+
+You may connect your computer running SbfMixer to another computer. To do so, you will need one TTL cable for the computer running SbfMixer and another one for the computer runnning your base station.
+
+You may want to run SbfMixer on the same computer has your base station :
+
+![Setup Septentrio receiver 2 computers](img/setup2.png)
+
+This setup haven't been tested, you will need to :
+
+- Run Node-RED and forwarding output to a virtual serial connection using `--device`
+- Run a docker with your base station, and allow it to access only your virtual serial connection defiened previously 
 
 ## Example: CRPA
 
@@ -164,6 +189,6 @@ if (msg.blockName == "RFStatus") {
 - `npm install my_folder_with_package_source`
 - `npm install @septentrio/node-red-sbf-mixer`
 - `npm uninstall <package_name>`
-- `npm publish --access public`: Update the package version in `package.json` before, only needed by Septentrio maintainer
+- Update the package version in `package.json` and then, publish the new version to npm using `npm publish --access public`
 
 

@@ -31,7 +31,7 @@ function ms_to_TOW(timestamp_ms) {
 }
 
 module.exports = function(RED) {
-    function PlayerNode(config) {
+    function PlaySbfNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
         node.changeTimeToActual = config.changeTimeToActual; // Will be used when differents modes
@@ -171,21 +171,11 @@ module.exports = function(RED) {
                     case 'clear':
                         clearPlayback();
                         break;
-                    case 'start':
-                        startPlayback();
-                        break;
-                    case 'stop':
-                        stopPlayback();
-                        break;
                     default:
                         node.warn(`Received unknown command: ${msg.command}`);
                 }
 
             } else if (msg.type === 'SBF' && msg.block && typeof msg.block.TOW === 'number' && typeof msg.block.WNc === 'number') {
-                if (isPlaying) {
-                    node.warn("Cannot add messages while playback is active. Stop playback first.");
-                }
-
                 const timestamp_ms = TOW_to_ms(msg.block.WNc, msg.block.TOW);
 
                 if (timestamp_ms < Date.now() - MS_IN_YEAR * 30){
@@ -204,5 +194,5 @@ module.exports = function(RED) {
         });
     }
 
-    RED.nodes.registerType("player", PlayerNode);
+    RED.nodes.registerType("play-sbf", PlaySbfNode);
 };

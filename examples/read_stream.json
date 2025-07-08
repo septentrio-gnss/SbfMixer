@@ -1,6 +1,6 @@
 [
     {
-        "id": "f449f31a16e36bc2",
+        "id": "1e0b8589e69c75ee",
         "type": "tab",
         "label": "Basic",
         "disabled": false,
@@ -8,23 +8,23 @@
         "env": []
     },
     {
-        "id": "7ef75fd13ac61580",
+        "id": "76b5438568db5461",
         "type": "serial in",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "serial": "d56a1d37b95bd5ba",
         "x": 250,
         "y": 180,
         "wires": [
             [
-                "5454507412e82c83"
+                "5bb6c1b2c01dc62b"
             ]
         ]
     },
     {
-        "id": "f294e9d095f3f6b9",
+        "id": "08dd0a2fa8325f21",
         "type": "serial in",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "d": true,
         "name": "",
         "serial": "a4af84c748f60b76",
@@ -32,15 +32,15 @@
         "y": 440,
         "wires": [
             [
-                "d610257891dda6b0",
-                "615665610ca7d373"
+                "91125bf8355ba8ca",
+                "19fb4ee379641c56"
             ]
         ]
     },
     {
-        "id": "96ecb4ae76459b90",
+        "id": "03072fc8e3c10aa6",
         "type": "debug",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "Debug",
         "active": true,
         "tosidebar": true,
@@ -55,9 +55,9 @@
         "wires": []
     },
     {
-        "id": "615665610ca7d373",
+        "id": "19fb4ee379641c56",
         "type": "serial out",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "serial": "a3f991a012152bc9",
         "x": 700,
@@ -65,9 +65,9 @@
         "wires": []
     },
     {
-        "id": "a1d54861698e66d9",
+        "id": "34f39b2ed2b539ac",
         "type": "serial out",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "d": true,
         "name": "",
         "serial": "a4af84c748f60b76",
@@ -76,9 +76,9 @@
         "wires": []
     },
     {
-        "id": "b146ec683d715691",
+        "id": "129a0d46ed910919",
         "type": "debug",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "Debug",
         "active": false,
         "tosidebar": true,
@@ -89,89 +89,64 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 670,
-        "y": 240,
+        "y": 280,
         "wires": []
     },
     {
-        "id": "d610257891dda6b0",
+        "id": "91125bf8355ba8ca",
         "type": "command-parser",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "x": 450,
         "y": 380,
         "wires": [
             [
-                "96ecb4ae76459b90"
+                "03072fc8e3c10aa6"
             ]
         ]
     },
     {
-        "id": "5454507412e82c83",
+        "id": "5bb6c1b2c01dc62b",
         "type": "sbf-parser",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "x": 420,
         "y": 180,
         "wires": [
             [
-                "ad81fa3fe0f5e8a1",
-                "b146ec683d715691",
-                "278d2d7c3f8182e0",
-                "381343d8faddc3c2"
+                "dd6b3844dd5544dc",
+                "129a0d46ed910919",
+                "602a06c497018dad",
+                "5ffe7ec6e2bb5921"
             ]
         ]
     },
     {
-        "id": "ad81fa3fe0f5e8a1",
+        "id": "dd6b3844dd5544dc",
         "type": "receiver-state",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "x": 700,
         "y": 120,
         "wires": []
     },
     {
-        "id": "278d2d7c3f8182e0",
+        "id": "602a06c497018dad",
         "type": "sbf-encoder",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "",
         "x": 690,
         "y": 180,
         "wires": [
             [
-                "a1d54861698e66d9"
+                "34f39b2ed2b539ac"
             ]
         ]
     },
     {
-        "id": "4a0de1f9816020ec",
+        "id": "69bea7aa13451643",
         "type": "inject",
-        "z": "f449f31a16e36bc2",
-        "name": "Activate",
-        "props": [
-            {
-                "p": "payload"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 500,
-        "wires": [
-            [
-                "fe65a16c444b0868"
-            ]
-        ]
-    },
-    {
-        "id": "38c21968bce70307",
-        "type": "inject",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "Activate",
         "props": [
             {
@@ -189,42 +164,67 @@
         "y": 540,
         "wires": [
             [
-                "eb6b5a4326c4bfcc"
+                "ca9063646af184bf"
             ]
         ]
     },
     {
-        "id": "fe65a16c444b0868",
+        "id": "8a964afe97b4723a",
+        "type": "inject",
+        "z": "1e0b8589e69c75ee",
+        "name": "Activate",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 580,
+        "wires": [
+            [
+                "bebec2fdf03552b9"
+            ]
+        ]
+    },
+    {
+        "id": "ca9063646af184bf",
         "type": "send-sbf-command",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "On",
         "sbf_command": "sso, Stream1, USB1, PVTCart+PVTGeod+Status+Support, msec100 ",
         "x": 410,
-        "y": 500,
-        "wires": [
-            [
-                "615665610ca7d373"
-            ]
-        ]
-    },
-    {
-        "id": "eb6b5a4326c4bfcc",
-        "type": "send-sbf-command",
-        "z": "f449f31a16e36bc2",
-        "name": "Off",
-        "sbf_command": "sso, Stream1, USB1, PVTCart+PVTGeod+Status+Support, off ",
-        "x": 410,
         "y": 540,
         "wires": [
             [
-                "615665610ca7d373"
+                "19fb4ee379641c56"
             ]
         ]
     },
     {
-        "id": "381343d8faddc3c2",
+        "id": "bebec2fdf03552b9",
+        "type": "send-sbf-command",
+        "z": "1e0b8589e69c75ee",
+        "name": "Off",
+        "sbf_command": "sso, Stream1, USB1, PVTCart+PVTGeod+Status+Support, off ",
+        "x": 410,
+        "y": 580,
+        "wires": [
+            [
+                "19fb4ee379641c56"
+            ]
+        ]
+    },
+    {
+        "id": "5ffe7ec6e2bb5921",
         "type": "function",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "Filter messages",
         "func": "if(msg.blockName == \"ReceiverStatus\"){\n    return msg;\n}\n",
         "outputs": 1,
@@ -234,19 +234,19 @@
         "finalize": "",
         "libs": [],
         "x": 700,
-        "y": 280,
+        "y": 240,
         "wires": [
             [
-                "474c909d2cb1c6a4"
+                "f39358a59f1b7d03"
             ]
         ]
     },
     {
-        "id": "474c909d2cb1c6a4",
+        "id": "f39358a59f1b7d03",
         "type": "debug",
-        "z": "f449f31a16e36bc2",
+        "z": "1e0b8589e69c75ee",
         "name": "Debug",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -255,8 +255,47 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 890,
-        "y": 280,
+        "y": 240,
         "wires": []
+    },
+    {
+        "id": "82573bdf82a7af62",
+        "type": "send-sbf-command",
+        "z": "1e0b8589e69c75ee",
+        "name": "Force",
+        "sbf_command": "SSSSSSSSSS",
+        "x": 410,
+        "y": 500,
+        "wires": [
+            [
+                "19fb4ee379641c56"
+            ]
+        ]
+    },
+    {
+        "id": "fdb9a06de424f810",
+        "type": "inject",
+        "z": "1e0b8589e69c75ee",
+        "name": "Activate",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 500,
+        "wires": [
+            [
+                "82573bdf82a7af62"
+            ]
+        ]
     },
     {
         "id": "d56a1d37b95bd5ba",
@@ -272,7 +311,7 @@
         "rts": "none",
         "cts": "none",
         "dsr": "none",
-        "newline": "",
+        "newline": "1",
         "bin": "bin",
         "out": "count",
         "addchar": "",
